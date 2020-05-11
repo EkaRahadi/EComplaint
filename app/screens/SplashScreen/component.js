@@ -6,8 +6,12 @@ class Component extends React.Component {
     render() {
       return (
         <View style={{backgroundColor: '#061F3E', flex:1}}>
-             <ImageBackground style={{alignSelf:'center',width:350, height:550}} source={require('../../assets/Landscape.jpg')}> 
-                <Image style={{alignSelf:'center',width:150, height:150, marginTop:65}} 
+             <ImageBackground style={{alignSelf:'center',width:'99%', height:'99%'}} source={require('../../assets/Landscape.jpg')}> 
+                <Image style={{
+                  alignSelf:'center',
+                  width:150, height:150,
+                  marginTop:65
+                }} 
                 source={require('../../assets/logopolindra.png')}/>
              </ImageBackground>
         </View>

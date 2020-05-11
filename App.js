@@ -1,53 +1,49 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import {Alert} from 'react-native';
+import Router from './app/Router';
+import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
-import firebase from '@react-native-firebase/app';
-import Login from './app/screens/Login';
-import SplashScreen from './app/screens/SplashScreen';
-import KeluhanSA from './app/screens/KeluhanSA';
-import ListReportSA from './app/screens/ListReportSA';
-import BuatkanAkun from './app/screens/BuatkanAkun';
-import KelolaAkun from './app/screens/KelolaAkun';
-import DetailAkun from './app/screens/DetailAkun';
-import HomeAdmin from './app/screens/HomeAdmin';
-import KeluhanAdmin from './app/screens/KeluhanAdmin';
-import Tanggapan from './app/screens/Tanggapan';
+export default class App extends Component {
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\nCmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\nShake or press menu button for dev menu',
-});
+  constructor(props) {
+    super(props)
+     //Remove this method to stop OneSignal Debugging 
+    OneSignal.setLogLevel(6, 0);
+    
+    // Replace 'YOUR_ONESIGNAL_APP_ID' with your OneSignal App ID.
+    OneSignal.init('85ef8ba5-0492-42a1-aa5c-b8f17e434621', {kOSSettingsKeyAutoPrompt : false, 
+      kOSSettingsKeyInAppLaunchURL: false, kOSSettingsKeyInFocusDisplayOption:2});
+    OneSignal.inFocusDisplaying(2);
+    
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
+  }
 
-const firebaseCredentials = Platform.select({
-  ios: 'https://invertase.link/firebase-ios',
-  android: 'https://invertase.link/firebase-android',
-});
+  componentWillUnmount() {
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('ids', this.onIds);
+  }
 
-type Props = {};
+  onReceived(notification) {
+    console.log("Notification received: ", notification);
+  }
 
-export default class App extends Component<Props> {
+  onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device) {
+    console.log('Device info: ', device);
+  }
+  
   render() {
     return (
-      <Tanggapan/>
+      <Router/>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

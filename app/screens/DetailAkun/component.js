@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, Image, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
 // import { FlatList } from 'react-native-gesture-handler';
 
 renderSeparator = () => {  
@@ -31,17 +31,19 @@ class Component extends React.Component {
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
           {/* HEADER */}
-          <View style={{backgroundColor:'#061F3E', width:320, height:60, flexDirection:'row' }}>
-            <Image style={{alignSelf:'center',width:15, height:15, marginTop:20, marginLeft:15, alignSelf:'flex-start'}} 
+          <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row' }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Image style={{alignSelf:'center',width:15, height:15, marginTop:20, marginLeft:15, alignSelf:'flex-start'}} 
                   source={require('../../assets/back.png')}/>
-            <View style={{flexDirection:'row', marginLeft:35}}>
-            <Image style={{alignSelf:'center',width:32, height:32, marginTop:20, borderRadius:15, marginLeft:20, alignSelf:'flex-start'}} 
+            </TouchableOpacity>
+            <View style={{flexDirection:'row', marginHorizontal: '25%', justifyContent: 'center', alignItems: 'center'}}>
+            <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
                   source={require('../../assets/admin.png')}/>
-              <View style={{alignSelf:'center', marginLeft:10}}>
-                <Text style={{alignSelf:'center', color:'#ffffff', fontSize:12}}>
+              <View style={{alignSelf:'center', marginLeft: 10}}>
+                <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
                   Kelola
                 </Text>
-                <Text style={{alignSelf:'center', color:'#ffffff', fontSize:12}}>
+                <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
                   Akun Admin
                 </Text>  
               </View>    
@@ -98,13 +100,17 @@ class Component extends React.Component {
 
   const styles = StyleSheet.create({
     card:{
-      height:400,
-      width:300,
-      backgroundColor:'white',
-      marginVertical: 3,
+      backgroundColor: 'white',
+      marginTop:25,
+      marginHorizontal:50,
+      paddingBottom: 150,
       borderRadius:15,
-      alignSelf: 'center',
-      marginTop:25
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 3,
+        height: 3,},
+      shadowOpacity: 0.8,
+      elevation: 5,
     },
   })
 
