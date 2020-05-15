@@ -1,6 +1,8 @@
 import * as React from 'react';
+import {Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
 
 //Stack
 import SplashScreen from '../screens/SplashScreen';
@@ -17,18 +19,20 @@ import KeluhanAdmin from '../screens/KeluhanAdmin';
 
 const Stack = createStackNavigator();
 
-export default function Router() {
+export default class Router extends Component {
+
+  render() {
     return (
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName='HomeAdmin'
+          initialRouteName='Login'
           screenOptions={{
             headerShown: false,
           }}
         >
             <Stack.Screen name="Splashscreen" component={SplashScreen}/>
             <Stack.Screen name="Login" component={Login}/>
-            <Stack.Screen name="Home" component={Home}/>
+            <Stack.Screen name="HomeSuperAdmin" component={Home}/>
             <Stack.Screen name="HomeAdmin" component={HomeAdmin}/>
             <Stack.Screen name="BuatAkun" component={BuatkanAkun}/>
             <Stack.Screen name="KelolaAkun" component={KelolaAkun}/>
@@ -40,4 +44,5 @@ export default function Router() {
         </Stack.Navigator>
       </NavigationContainer>
     );
+  }
   }

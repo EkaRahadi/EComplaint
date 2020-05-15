@@ -1,10 +1,25 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux';
+
+import {logout} from '../../actions/index';
 
 //TopNav
 import TopNavigator from '../../Router/TopNavigator';
 
 class Component extends React.Component {
+
+    _logout = async () => {
+        try {
+            await AsyncStorage.removeItem('user_account');
+            await this.props.onLogout()
+            this.props.navigation.replace('Login')
+          } catch(e) {
+            // remove error
+            console.log(e)
+        }
+    }
 
     render() {
         return(
@@ -71,7 +86,7 @@ class Component extends React.Component {
                         width: '50%',
                         paddingVertical: 5,
                     }}
-                    // onPress={() => this.props.navigation.navigate('KelolaAkun')}
+                    onPress={this._logout}
                 >
                     <Text style={{marginHorizontal: 20, color: '#D6D6D6',fontFamily: 'RacingSansOne-Regular', fontSize:20}}>Logout</Text>
                 </TouchableOpacity>
@@ -101,4 +116,19 @@ const styles = StyleSheet.create({
   }
 })
 
-export default (Component);
+const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail
+    }
+  }
+    
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      onLogout: () => {
+        dispatch(logout());
+      },
+  
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Component)
