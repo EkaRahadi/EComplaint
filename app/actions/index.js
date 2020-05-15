@@ -1,4 +1,5 @@
-import {LOGIN, SET_USER_INFO, LOGOUT, AUTO_LOGIN} from './actionTypes';
+import {LOGIN, SET_USER_INFO, LOGOUT, AUTO_LOGIN, 
+    FETCH_KATEGORI, SET_KATEGORI, CREATE_ADMIN} from './actionTypes';
 
 export const login = (params, onSuccess, onError) => {
     return {
@@ -26,5 +27,29 @@ export const autoLogin = (user_account) => {
     return {
         type: AUTO_LOGIN,
         user_account
+    }
+}
+
+export const fetchKategori = (onSuccess, onError) => {
+    return {
+        type: FETCH_KATEGORI,
+        onSuccess,
+        onError
+    }
+}
+
+export const setKategori = (data) => {
+    return {
+        type: SET_KATEGORI,
+        data
+    }
+}
+
+export const createAdmin = (data, onSuccess, onError) => {
+    return {
+        type: CREATE_ADMIN,
+        data,
+        onSuccess,
+        onError
     }
 }

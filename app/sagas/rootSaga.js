@@ -1,8 +1,12 @@
 import { all } from 'redux-saga/effects';
-import { watchLogin} from '../sagas/loginSaga';
+import { watchLogin} from './loginSaga';
+import { watchKategori } from './kategoriSaga';
+import { watchAdmin } from './adminSaga'
 function* rootSaga() {
     yield all([
-        watchLogin()
+        watchLogin(),
+        watchKategori(),
+        watchAdmin()
     ])
 }
 export default rootSaga

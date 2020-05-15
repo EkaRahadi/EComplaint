@@ -3,10 +3,8 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 
-import {logout} from '../../actions/index';
+import {logout, fetchKategori} from '../../actions/index';
 
-//TopNav
-import TopNavigator from '../../Router/TopNavigator';
 
 class Component extends React.Component {
 
@@ -127,6 +125,9 @@ const mapStateToProps = (state) => {
       onLogout: () => {
         dispatch(logout());
       },
+      onFetchKategori: (onSuccess, onError) => {
+          dispatch(fetchKategori(onSuccess,onError))
+      }
   
     }
   }

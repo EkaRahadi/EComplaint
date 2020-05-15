@@ -76,10 +76,6 @@ class Component extends React.Component {
 
   onSuccess = async (data) => {
     console.log('onSuccess', )
-    this.setState({
-      ...this.state,
-      isLoading: false
-    })
     //Save To AS for autologin
     try {
       const user_account = JSON.stringify(data)
@@ -88,6 +84,10 @@ class Component extends React.Component {
       // saving error
       console.log(e);
     }
+    this.setState({
+      ...this.state,
+      isLoading: false
+    })
     // Navigate to Home and Check which home will display ? Admin Home / Super Admin use this.props.navigation.replace('Home')
     OneSignal.addEventListener('ids', this.onIds);
     
@@ -137,6 +137,7 @@ class Component extends React.Component {
 
             <View style={{marginTop:20}}>
               <TextInput
+                secureTextEntry={true}
                 style={{color:'#D6D6D6', width:250, alignSelf:'center'}}
                 placeholder="Password"
                 placeholderTextColor= '#D6D6D6'

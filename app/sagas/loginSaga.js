@@ -39,11 +39,11 @@ function* login(action) {
     }
 }
 
-export function* logout() {
+function* logout() {
     yield put({type: types.SET_USER_INFO, data: {}})
 }
 
-export function* autoLogin(action) {
+function* autoLogin(action) {
     yield put({type: types.SET_USER_INFO, data: action.user_account})
 }
 
