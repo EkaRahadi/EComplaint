@@ -1,35 +1,50 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-// import { FlatList } from 'react-native-gesture-handler';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import {connect} from 'react-redux';
 
-renderSeparator = () => {  
-  return (  
-      <View  
-          style={{  
-              height: 1,  
-              width: "100%",  
-              backgroundColor: "#000",  
-          }}  
-      />  
-  );  
-};  
+import {fetchListAdmin} from '../../actions/index';
 
 class Component extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      data : [
-        {username:'elbaayu27', jabatan:'Kasubag Akademik'},
-        {username:'elbaayu27', jabatan:'Kasubag Keuangan'},
-        {username:'elbaayu27', jabatan:'Sarana Prasarana'},
-      ]
-     
-  };
+     isLoading: true
+    };
+}
+
+async componentDidMount() {
+  if(this.state.isLoading === true) {
+    this.props.onFetchListAdmin(this.onSuccess, this.onError);
+  }
+}
+
+onSuccess = (data) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+}
+
+onError = (err) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+  Alert.alert(err.message)
+  console.log('Error Fetch List Admin',err)
 }
 
     render() {
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
+          <OrientationLoadingOverlay
+          visible={this.state.isLoading}
+          color="white"
+          indicatorSize="large"
+          messageFontSize={24}
+          message="Loading..."
+          />
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row' }}>
             <TouchableOpacity
@@ -54,7 +69,7 @@ class Component extends React.Component {
 
           {/* CONTENT */}
             <FlatList
-            data={this.state.data}
+            data={this.props.listAdmin}
             keyExtractor={(item, index) => index.toString()}
             renderItem = {({item}) => {
               return (
@@ -63,7 +78,9 @@ class Component extends React.Component {
                     <Text style={{color: '#061F3F'}}>{item.jabatan}</Text>
                     <TouchableOpacity 
                       style={styles.details}
-                      onPress={() => this.props.navigation.navigate('DetailKelolaAkun')}
+                      onPress={() => this.props.navigation.navigate('DetailKelolaAkun', {
+                        data: item
+                      })}
                       >
                     <Text style={{ color: '#061F3E',}}>See Details</Text>
                     </TouchableOpacity>
@@ -75,8 +92,6 @@ class Component extends React.Component {
       );
     }
   }
-
-  export default (Component)
 
   const styles = StyleSheet.create({
     card:{
@@ -110,3 +125,21 @@ class Component extends React.Component {
   })
 
   // NOTE : Floating flatlist
+
+const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail,
+      listAdmin: state.listAdmin,
+    }
+}
+    
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onFetchListAdmin: (onSuccess, onError) => {
+          dispatch(fetchListAdmin(onSuccess,onError))
+      }
+  
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Component)

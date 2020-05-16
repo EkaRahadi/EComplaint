@@ -32,6 +32,141 @@ function* createAdmin(action) {
     }
 }
 
+function* fetchListAdmin(action) {
+    try {
+        let result;
+        yield fetch('https://backend-complaint.herokuapp.com/api-mobile/admin/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+        .then(data => {
+            result = data
+        })
+
+        //
+        if (result.success === true) {
+            yield put({type: types.SET_LIST_ADMIN, data: result.data})
+            action.onSuccess(result.data)
+        }
+        else {
+            const err = {
+                message: 'Tidak ada List Admin',
+                error: result
+            }
+
+            action.onError(err)
+        }
+    } catch (errorCath) {
+        const err = {
+            message: 'Error Server Connection',
+            error: errorCath
+        }
+        action.onError(err)
+    }
+}
+
+function* updatePartialAdmin(action) {
+    try {
+        let result;
+           yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/token-partial-update/${action.id}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(action.data)
+            }).then(res => res.json())
+            .then(data => {
+                result = data
+            })
+
+        if (result.success === true) {
+            yield action.onSuccess(result.data)
+        } else {
+            const err = {
+                message: 'Tidak dapat mengupdate admin',
+                error: result
+            }
+            yield action.onError(err)
+        }
+    } catch (error) {
+        const err = {
+            message: 'Error Connection Server',
+            response: error
+        }
+        yield action.onError(err)
+        console.log('Error Update Partial Admin Saga', error)
+    }
+    console.log('Partial')
+}
+
+function* updateFullAdmin(action) {
+    try {
+        let result;
+           yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/${action.id}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(action.data)
+            }).then(res => res.json())
+            .then(data => {
+                result = data
+            })
+
+        if (result.success === true) {
+            yield action.onSuccess(result.data)
+        } else {
+            const err = {
+                message: 'Tidak dapat mengupdate admin',
+                error: result
+            }
+            yield action.onError(err)
+        }
+    } catch (error) {
+        const err = {
+            message: 'Error Connection Server',
+            response: error
+        }
+        yield action.onError(err)
+        console.log('Error Update Partial Admin Saga', error)
+    }
+    console.log('Full')
+}
+
+function* deleteAdmin(action) {
+    try {
+        let result;
+           yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/${action.id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(res => res.json())
+            .then(data => {
+                result = data
+            })
+
+        if (result.success === true) {
+            yield action.onSuccess(result.data)
+        } else {
+            const err = {
+                message: 'Tidak dapat menghapus admin',
+                error: result
+            }
+            yield action.onError(err)
+        }
+    } catch (error) {
+        
+    }
+    console.log('Delete Admin', action.id)
+}
+
 export function* watchAdmin() {
     yield takeLatest(types.CREATE_ADMIN, createAdmin)
+    yield takeLatest(types.FETCH_LIST_ADMIN, fetchListAdmin),
+    yield takeLatest(types.UPDATE_PARTIAL_ADMIN, updatePartialAdmin),
+    yield takeLatest(types.UPDATE_FULL_ADMIN, updateFullAdmin),
+    yield takeLatest(types.DELETE_ADMIN, deleteAdmin)
 }
