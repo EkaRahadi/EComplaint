@@ -1,7 +1,6 @@
 import * as types from '../actions/actionTypes';
 import { put, takeLatest, call } from 'redux-saga/effects';
 
-
 function* fetchKategori(action) {
     try {
         let result;
@@ -32,6 +31,7 @@ function* fetchKategori(action) {
             error: error
         }
         action.onError(err)
+        console.log(error)
     }
 }
 

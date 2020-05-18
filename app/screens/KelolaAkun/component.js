@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import {connect} from 'react-redux';
 

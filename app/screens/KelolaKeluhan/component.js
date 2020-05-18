@@ -1,17 +1,70 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-
-
+import {View, Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
+import {connect} from 'react-redux';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import { fetchKeluhanKategoriOnSuperAdmin, fetchKeluhanStatusPending } from '../../actions/index';
 class Component extends React.Component {
 
-    _handlePress = () => {
-        //Jika super admin maka ke this.props.navigation.navigate('KeluhanSuperAdmin')
-        //Jika admin maka ke this.props.navigation.navigate('KeluhanAdmin')
+    constructor(props) {
+        super(props)
+        this.state = {
+            isLoading: false
+        }
+    }
+
+    _handlePress = (menu) => {
+        this.setState({
+            ...this.state,
+            isLoading: true
+        })
+        let id;
+        this.props.kategori.map(item => {
+            if(item.kategori === menu) {
+                id = item.id
+            }
+        })
+        //Dispatch untuk get list keluhan berdasarkan kategori dari parameter menu
+        this.props.onFetchKeluhan(id, this.onSuccess, this.onError)
         this.props.navigation.navigate('KeluhanSuperAdmin');
+    }
+
+     _handlePressButton = () => {
+        this.setState({
+            ...this.state,
+            isLoading: true
+        })
+
+        //Dispatch untuk getlist keluhan yg statusnya pending
+        this.props.onFetchReport(this.onSuccess, this.onError);
+        this.props.navigation.navigate('Report')
+     }
+
+    onSuccess = () => {
+        console.log('Success Fetch Keluhan')
+        this.setState({
+            ...this.state,
+            isLoading: false
+        })
+    }
+
+    onError = (data) => {
+        console.log('Error Fetch Keluhan')
+        this.setState({
+            ...this.state,
+            isLoading: false
+        })
+        Alert.alert('Gagal Mengambil Data Keluhan')
     }
     render() {
         return(
             <View style={{flex:1, backgroundColor: '#D7D7D7'}}>
+                <OrientationLoadingOverlay
+                visible={this.state.isLoading}
+                color="white"
+                indicatorSize="large"
+                messageFontSize={24}
+                message="Loading..."
+                />
                 {/* Menu */}
                <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
                     <TouchableOpacity
@@ -32,7 +85,9 @@ class Component extends React.Component {
                             justifyContent: 'space-between',
                             paddingVertical: 10
                         }}
-                        onPress={this._handlePress}
+                        onPress={() => {
+                            this._handlePress('Akademik')
+                        }}
                     >
                         <Image
                             style={{height:50, width:50}}
@@ -58,6 +113,9 @@ class Component extends React.Component {
                             paddingHorizontal:5,
                             justifyContent: 'space-between',
                             paddingVertical: 10
+                            }}
+                            onPress={() => {
+                                this._handlePress('Keuangan')
                             }}
                     >
                         <Image
@@ -86,6 +144,9 @@ class Component extends React.Component {
                             justifyContent: 'space-between',
                             paddingVertical: 10
                             }}
+                            onPress={() => {
+                                this._handlePress('Sarana Prasarana')
+                            }}
                     >
                         <Image
                             style={{height:50, width:50}}
@@ -113,6 +174,9 @@ class Component extends React.Component {
                             justifyContent: 'space-between',
                             paddingVertical: 10
                         }}
+                        onPress={() => {
+                            this._handlePress('Tenaga Pengajar (Dosen)')
+                        }}
                     >
                          <Image
                             style={{height:50, width:50}}
@@ -124,7 +188,7 @@ class Component extends React.Component {
 
                {/* Button */}
                <TouchableOpacity
-               onPress={() => this.props.navigation.navigate('Report')}
+               onPress={this._handlePressButton}
                 style={{
                     alignSelf: 'center',
                     marginTop: 50,
@@ -149,4 +213,23 @@ class Component extends React.Component {
     }
 }
 
-export default (Component);
+const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail,
+      kategori: state.kategori
+    }
+}
+    
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onFetchKeluhan: (id, onSuccess, onError) => {
+          dispatch(fetchKeluhanKategoriOnSuperAdmin(id, onSuccess, onError))
+      },
+      onFetchReport: (onSuccess, onError) => {
+          dispatch(fetchKeluhanStatusPending(onSuccess, onError))
+      }
+  
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Component)

@@ -1,7 +1,9 @@
 import {LOGIN, SET_USER_INFO, LOGOUT, AUTO_LOGIN, 
     FETCH_KATEGORI, SET_KATEGORI, CREATE_ADMIN,
     FETCH_LIST_ADMIN, SET_LIST_ADMIN,
-    UPDATE_PARTIAL_ADMIN, UPDATE_FULL_ADMIN, DELETE_ADMIN} from './actionTypes';
+    UPDATE_PARTIAL_ADMIN, UPDATE_FULL_ADMIN, 
+    DELETE_ADMIN, GET_KELUHAN_BY_KATEGORI_ON_SUPER_ADMIN,
+    GET_KELUHAN_STATUS_PENDING, UPDATE_STATUS_KELUHAN} from './actionTypes';
 
 export const login = (params, onSuccess, onError) => {
     return {
@@ -95,6 +97,32 @@ export const deleteAdmin = (id, onSuccess, onError) => {
     return {
         type: DELETE_ADMIN,
         id,
+        onSuccess,
+        onError
+    }
+}
+
+export const fetchKeluhanKategoriOnSuperAdmin = (id, onSuccess, onError) => {
+    return {
+        type: GET_KELUHAN_BY_KATEGORI_ON_SUPER_ADMIN,
+        id,
+        onSuccess,
+        onError
+    }
+}
+
+export const fetchKeluhanStatusPending = (onSuccess, onError) => {
+    return {
+        type: GET_KELUHAN_STATUS_PENDING,
+        onSuccess,
+        onError
+    }
+}
+
+export const updateKeluhanStatus = (data, onSuccess, onError) => {
+    return {
+        type: UPDATE_STATUS_KELUHAN,
+        data,
         onSuccess,
         onError
     }

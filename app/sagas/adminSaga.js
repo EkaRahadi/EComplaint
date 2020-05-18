@@ -3,7 +3,7 @@ import { put, takeLatest, call } from 'redux-saga/effects';
 
 function* createAdmin(action) {
     try {
-        fetch('https://backend-complaint.herokuapp.com/api-mobile/admin/', {
+        fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ function* createAdmin(action) {
 function* fetchListAdmin(action) {
     try {
         let result;
-        yield fetch('https://backend-complaint.herokuapp.com/api-mobile/admin/', {
+        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,17 +46,9 @@ function* fetchListAdmin(action) {
         })
 
         //
-        if (result.success === true) {
+        if (result) {
             yield put({type: types.SET_LIST_ADMIN, data: result.data})
             action.onSuccess(result.data)
-        }
-        else {
-            const err = {
-                message: 'Tidak ada List Admin',
-                error: result
-            }
-
-            action.onError(err)
         }
     } catch (errorCath) {
         const err = {

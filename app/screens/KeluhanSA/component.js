@@ -1,29 +1,12 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-// import { FlatList } from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
 
-renderSeparator = () => {  
-  return (  
-      <View  
-          style={{  
-              height: 1,  
-              width: "100%",  
-              backgroundColor: "#000",  
-          }}  
-      />  
-  );  
-};  
-
+import { fetchKeluhanKategoriOnSuperAdmin } from '../../actions/index';
 class Component extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      data : [
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...Pelayanan sangat baik hanya tinggal lebih di...Pelayanan sangat baik hanya tinggal lebih di...', status:'Belum Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Sudah Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Reported'}
-      ]
-     
   };
 }
 
@@ -52,12 +35,18 @@ class Component extends React.Component {
 
           {/* CONTENT */}
           <FlatList
-          data={this.state.data}
+          data={this.props.keluhan}
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({item}) => {
             return (
                 <View style={styles.card}>
-                    <Text style={styles.status}>Sudah Ditanggapi</Text>
+                  {item.status.status === 'Belum Ditanggapi' ?
+                    <Text style={[styles.status]}>{item.status.status}</Text>
+                  :  item.status.status === 'Reported' ?
+                    <Text style={[styles.status, {color : '#989898'}]}>{item.status.status}</Text>
+                  : <Text style={[styles.status]}>Sudah Ditanggapi</Text>
+                  }
+                  {/* <Text style={[styles.status, {color : '#A54D4D'}]}>{item.status.status}</Text> */}
                   <Text style={styles.complaints}>{item.keluhan}</Text>
                 </View>
             );
@@ -68,8 +57,6 @@ class Component extends React.Component {
       );
     }
   }
-
-  export default (Component)
 
   const styles = StyleSheet.create({
     card:{
@@ -86,13 +73,13 @@ class Component extends React.Component {
       elevation: 5,
     },
     complaints:{
-      fontSize:12,
+      fontSize:13,
       color:'black',
       marginHorizontal:5,
       marginVertical: 5
     },
     status:{
-      color:'green',
+      color:'#47794C',
       fontSize: 12,
       fontWeight:'bold',
       alignSelf: "flex-end",
@@ -101,4 +88,20 @@ class Component extends React.Component {
     }
   })
 
+const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail,
+      kategori: state.kategori,
+      keluhan: state.keluhanKategori
+
+    }
+}
+    
+const mapDispatchToProps = (dispatch) => {
+    return {
+  
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Component)
   // NOTE : Floating flatlist

@@ -1,22 +1,74 @@
 import React from 'react';
-import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {connect} from 'react-redux';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import { updateKeluhanStatus } from '../../actions/index';
 
 class Component extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      data : [
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...Pelayanan sangat baik hanya tinggal lebih di...Pelayanan sangat baik hanya tinggal lebih di...', status:'Belum Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Sudah Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Reported'}
-      ]
-     
+     isLoading: false
   };
+}
+
+_handleAccept = (item) =>  {
+  this.setState({
+    ...this.state,
+    isLoading: true
+  })
+  const data = {
+    ...item,
+    status: {
+      status: 3
+    }
+  }
+  //isLoading true
+  this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
+}
+
+_handleDecline = (item) =>  {
+  this.setState({
+    ...this.state,
+    isLoading: true
+  })
+  const data = {
+    ...item,
+    status: {
+      status: 1
+    }
+  }
+  this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
+}
+
+onSuccess = () => {
+  console.log('Success Update Keluhan')
+  this.setState({
+      ...this.state,
+      isLoading: false
+  })
+  this.props.navigation.navigate('HomeSuperAdmin', { screen: 'KelolaKeluhan' });
+}
+
+onError = (data) => {
+  console.log('Error Update Keluhan')
+  this.setState({
+      ...this.state,
+      isLoading: false
+  })
+  Alert.alert('Gagal Update Keluhan')
 }
 
     render() {
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
+          <OrientationLoadingOverlay
+            visible={this.state.isLoading}
+            color="white"
+            indicatorSize="large"
+            messageFontSize={24}
+            message="Loading..."
+          />
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row'}}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -39,17 +91,17 @@ class Component extends React.Component {
 
           {/* CONTENT */}
           <FlatList
-          data={this.state.data}
+          data={this.props.keluhanPending}
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({item}) => {
             return (
                 <View style={styles.card}>
                   <View style={{flexDirection:'row', justifyContent: 'flex-end', marginRight:10}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this._handleAccept(item)}>
                       <Text style={styles.approve}>Approve</Text>
                     </TouchableOpacity>
                     <Text style={styles.devide}> | </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this._handleDecline(item)}>
                       <Text style={styles.decline}>Decline</Text>
                     </TouchableOpacity>
                   </View>
@@ -63,8 +115,6 @@ class Component extends React.Component {
       );
     }
   }
-
-  export default (Component)
 
   const styles = StyleSheet.create({
     card:{
@@ -108,5 +158,23 @@ class Component extends React.Component {
       marginTop: 8,
     }
   })
+
+const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail,
+      kategori: state.kategori,
+      keluhanPending: state.keluhanPending
+    }
+}
+    
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onUpdateStatusKeluhan: (data, onSuccess, onError) => {
+        dispatch(updateKeluhanStatus(data, onSuccess, onError))
+      }
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Component)
 
   // NOTE : Floating flatlist
