@@ -1,6 +1,9 @@
 import React from 'react';
-import {Text, View, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-// import { FlatList } from 'react-native-gesture-handler';
+import {Text, View, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import {connect} from 'react-redux';
+
+import { tanggapanLaporkanKeluhan } from '../../actions/index';
 
 renderSeparator = () => {  
   return (  
@@ -18,18 +21,85 @@ class Component extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      data : [
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Belum Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Sudah Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Reported'}
-      ]
-     
+     tanggapan: '',
+     isLoading: false
   };
+}
+
+_handleTanggapanButton = () => {
+  this.setState({
+    ...this.state,
+    isLoading: true
+  })
+  data = {
+    ...this.props.route.params.data,
+    status: {
+      status: 2
+    },
+    kategori: {
+      kategori: this.props.route.params.data.kategori.id
+    },
+    tanggapan: this.state.tanggapan
+  }
+  //Dispatch untuk update tanggapan dan status keluhan
+  this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
+}
+
+_handleLaporkanButton = () => {
+  this.setState({
+    ...this.state,
+    isLoading: true
+  })
+  data = {
+    ...this.props.route.params.data,
+    status: {
+      status: 4
+    },
+    kategori: {
+      kategori: this.props.route.params.data.kategori.id
+    },
+  }
+
+  //Dispatch untuk update tanggapan dan status keluhan
+  this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
+}
+
+onSuccess = (data) => {
+  console.log('Success Update Keluhan')
+  this.setState({
+      ...this.state,
+      isLoading: false
+  })
+  //Navigate To this.props.navigation.navigate('HomeAdmin')
+  Alert.alert(
+    "Berhasil",
+    "Action Berhasil Dilakukan",
+    [
+      { text: "OK", onPress: () => this.props.navigation.navigate('HomeAdmin') }
+    ],
+    { cancelable: false }
+  );
+}
+
+onError = (data) => {
+  console.log('Error Update Keluhan')
+  this.setState({
+      ...this.state,
+      isLoading: false
+  })
+  Alert.alert('Action Failed !')
 }
 
     render() {
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
+          <OrientationLoadingOverlay
+                visible={this.state.isLoading}
+                color="white"
+                indicatorSize="large"
+                messageFontSize={24}
+                message="Loading..."
+            />
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row' }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -54,15 +124,8 @@ class Component extends React.Component {
           
             <View style={styles.card}>
             <ScrollView>
-                <Text style={{color:'grey', fontSize:12, marginTop:10, fontWeight:'100', marginHorizontal:10}}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nulla ligula, eleifend sit amet mauris quis, 
-                tristique efficitur ex. Praesent ut vehicula ligula. 
-                Nam bibendum, purus eu fringilla vulputate, velit metus eleifend felis, 
-                non placerat mi nunc eu quam. Aliquam auctor sapien ac ligula gravida, 
-                in tristique leo viverra. Etiam eget cursus diam, sit amet lacinia ex. 
-                Sed suscipit purus ac facilisis scelerisque. Pellentesque habitant morbi tristique
-                senectus et netus et malesuada fames ac turpis egestas. Nam vitae rutrum tortor. 
-                Nam vitae volutpat nibh. Curabitur sed elit eu erat egestas porttitor eu at turpis. 
+                <Text style={{color:'grey', fontSize:14, marginTop:10, fontWeight:'100', marginHorizontal:10}}>
+                  {this.props.route.params.data.keluhan}
                 </Text>
 
                 <Text style={{marginTop:20, fontSize:12, fontWeight:'bold', marginLeft:10}}>
@@ -77,14 +140,28 @@ class Component extends React.Component {
                     placeholderTextColor="grey"
                     numberOfLines={10}
                     multiline={true}
+                    onChangeText={(text) => {
+                      this.setState({
+                        ...this.state,
+                        tanggapan: text
+                      })
+                    }}
                   />
                 </View>
 
-                <TouchableOpacity style={{backgroundColor:'#061F3E', width:115, height:30, borderRadius:10, marginTop:20, alignSelf:'center'}}>
+                <TouchableOpacity 
+                  onPress={this._handleTanggapanButton}
+                  style={{backgroundColor:'#061F3E', width:115,
+                  height:30, borderRadius:10, marginTop:20, 
+                  alignSelf:'center'}}>
                   <Text style={{color:'white', fontSize:12, alignSelf:'center', marginTop:5}}>Kirim Tanggapan</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{backgroundColor:'#991B1B', width:80, height:30, borderRadius:10, marginTop:5, alignSelf:'center'}}>
+                <TouchableOpacity 
+                  onPress={this._handleLaporkanButton}
+                  style={{backgroundColor:'#991B1B', width:80, 
+                  height:30, borderRadius:10, marginTop:5, 
+                  alignSelf:'center'}}>
                   <Text style={{color:'white', fontSize:12, alignSelf:'center', marginTop:5}}>Laporkan</Text>
                 </TouchableOpacity>
 
@@ -98,8 +175,6 @@ class Component extends React.Component {
       );
     }
   }
-
-  export default (Component)
 
   const styles = StyleSheet.create({
     card:{
@@ -128,13 +203,31 @@ class Component extends React.Component {
       borderRadius:10,
       width:230,
       alignSelf:'center',
-      marginTop:10
+      marginTop:10,
     },
     textArea: {
       height: 80,
       justifyContent: "flex-start",
-      fontSize:12
+      fontSize:14,
     }
   })
+
+  const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail,
+      kategori: state.kategori
+    }
+  }
+    
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      onTanggapanLaporkanKeluhan: (data, onSuccess, onError) => {
+        dispatch(tanggapanLaporkanKeluhan(data, onSuccess, onError))
+      }
+  
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Component)
 
   // NOTE : Floating flatlist

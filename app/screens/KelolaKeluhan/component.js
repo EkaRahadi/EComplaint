@@ -25,7 +25,9 @@ class Component extends React.Component {
         })
         //Dispatch untuk get list keluhan berdasarkan kategori dari parameter menu
         this.props.onFetchKeluhan(id, this.onSuccess, this.onError)
-        this.props.navigation.navigate('KeluhanSuperAdmin');
+        this.props.navigation.navigate('KeluhanSuperAdmin', {
+            headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar' 
+        });
     }
 
      _handlePressButton = () => {

@@ -3,7 +3,9 @@ import {LOGIN, SET_USER_INFO, LOGOUT, AUTO_LOGIN,
     FETCH_LIST_ADMIN, SET_LIST_ADMIN,
     UPDATE_PARTIAL_ADMIN, UPDATE_FULL_ADMIN, 
     DELETE_ADMIN, GET_KELUHAN_BY_KATEGORI_ON_SUPER_ADMIN,
-    GET_KELUHAN_STATUS_PENDING, UPDATE_STATUS_KELUHAN} from './actionTypes';
+    GET_KELUHAN_STATUS_PENDING, UPDATE_STATUS_KELUHAN,
+    FETCH_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI,
+    TANGGAPAN_LAPORKAN_KELUHAN} from './actionTypes';
 
 export const login = (params, onSuccess, onError) => {
     return {
@@ -122,6 +124,24 @@ export const fetchKeluhanStatusPending = (onSuccess, onError) => {
 export const updateKeluhanStatus = (data, onSuccess, onError) => {
     return {
         type: UPDATE_STATUS_KELUHAN,
+        data,
+        onSuccess,
+        onError
+    }
+}
+
+export const fetchKeluhanKategoriStatusBlmDitanggapi = (id, onSuccess, onError) => {
+    return {
+        type: FETCH_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI,
+        id,
+        onSuccess,
+        onError
+    }
+}
+
+export const tanggapanLaporkanKeluhan = (data, onSuccess, onError) => {
+    return {
+        type: TANGGAPAN_LAPORKAN_KELUHAN,
         data,
         onSuccess,
         onError

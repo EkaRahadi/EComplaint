@@ -20,14 +20,14 @@ class Component extends React.Component {
                   source={require('../../assets/back.png')}/>
             </TouchableOpacity>
             <View style={{flexDirection:'row', marginHorizontal: '25%', justifyContent: 'center', alignItems: 'center'}}>
-              <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
-                  source={require('../../assets/bachelor.jpg')}/>
+              {/* <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
+                  source={require('../../assets/bachelor.jpg')}/> */}
               <View style={{alignSelf:'center', marginLeft:10}}>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
                   Keluhan
                 </Text>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
-                  Bagian Akademik
+                  Bagian {this.props.route.params.headerName}
                 </Text>  
               </View>    
             </View>

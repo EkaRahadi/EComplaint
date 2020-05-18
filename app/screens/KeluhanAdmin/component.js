@@ -1,28 +1,11 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-// import { FlatList } from 'react-native-gesture-handler';
-
-renderSeparator = () => {  
-  return (  
-      <View  
-          style={{  
-              height: 1,  
-              width: "100%",  
-              backgroundColor: "#000",  
-          }}  
-      />  
-  );  
-};  
+import {connect} from 'react-redux';
 
 class Component extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-      data : [
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...Pelayanan sangat baik hanya tinggal lebih di..Pelayanan sangat baik hanya tinggal lebih di..Pelayanan sangat baik hanya tinggal lebih di..', status:'Belum Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Sudah Ditanggapi'},
-        {keluhan:'Pelayanan sangat baik hanya tinggal lebih di...', status:'Reported'}
-      ]
      
   };
 }
@@ -37,14 +20,14 @@ class Component extends React.Component {
                   source={require('../../assets/back.png')}/>
             </TouchableOpacity>
             <View style={{flexDirection:'row', marginHorizontal: '25%', justifyContent: 'center', alignItems: 'center'}}>
-              <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
-                  source={require('../../assets/bachelor.jpg')}/>
+              {/* <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
+                  source={require('../../assets/bachelor.jpg')}/> */}
               <View style={{alignSelf:'center', marginLeft:10}}>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
                   Keluhan
                 </Text>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
-                  Bagian Akademik
+                  Bagian {this.props.route.params.headerName}
                 </Text>  
               </View>    
             </View>
@@ -52,12 +35,14 @@ class Component extends React.Component {
 
           {/* CONTENT */}
           <FlatList
-          data={this.state.data}
+          data={this.props.keluhan}
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({item}) => {
             return (
                 <View style={styles.card}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('Tanggapan')}>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('Tanggapan', {
+                    data: item
+                  })}>
                     <Text style={styles.status}>Beri Tanggapan</Text>
                   </TouchableOpacity>
                   <Text style={styles.complaints}>{item.keluhan}</Text>
@@ -70,8 +55,6 @@ class Component extends React.Component {
       );
     }
   }
-
-  export default (Component)
 
   const styles = StyleSheet.create({
     card:{
@@ -103,5 +86,21 @@ class Component extends React.Component {
       marginTop: 8
     }
   })
+
+const mapStateToProps = (state) => {
+    return {
+      user : state.userDetail,
+      kategori: state.kategori,
+      keluhan: state.keluhanKategori
+    }
+  }
+    
+  const mapDispatchToProps = (dispatch) => {
+    return {
+  
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Component)
 
   // NOTE : Floating flatlist
