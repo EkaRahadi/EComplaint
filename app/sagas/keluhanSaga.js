@@ -4,7 +4,7 @@ import { put, takeLatest, call } from 'redux-saga/effects';
 function* fetchListKeluhanByKategoriOnSuperAdmin(action) {
     try {
         let result;
-        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/complaint-kategori/${action.id}/`, {
+        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ function* fetchListKeluhanStatusPending(action) {
     try {
         let result;
         const id = 4 // ini adalah ID status pending di DB
-        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/complaint-by-status/${id}/`, {
+        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-by-status/${id}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ function* fetchListKeluhanStatusPending(action) {
 function* updateStatusKeluhan(action) {
     try {
         let result;
-        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/complaint/`, {
+        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint/`, {
          method: 'POST',
          headers: {
              'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ function* updateStatusKeluhan(action) {
 function* fetchKeluhanKategoriStatusBlmDitanggapi(action) {
     try {
         let result = [];
-        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/complaint-kategori/${action.id}/`, {
+        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ function* fetchKeluhanKategoriStatusBlmDitanggapi(action) {
 function* tanggapanLaporkanKeluhan(action) {
     try {
         let result;
-        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/complaint/`, {
+        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint/`, {
          method: 'POST',
          headers: {
              'Content-Type': 'application/json'

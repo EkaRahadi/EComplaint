@@ -3,7 +3,7 @@ import { put, takeLatest, call } from 'redux-saga/effects';
 
 function* createAdmin(action) {
     try {
-        fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/`, {
+        fetch(`https://api.elbaayu.xyz/api-mobile/admin/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ function* createAdmin(action) {
 function* fetchListAdmin(action) {
     try {
         let result;
-        yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/`, {
+        yield fetch(`https://api.elbaayu.xyz/api-mobile/admin/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ function* fetchListAdmin(action) {
 function* updatePartialAdmin(action) {
     try {
         let result;
-           yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/token-partial-update/${action.id}/`, {
+           yield fetch(`https://api.elbaayu.xyz/api-mobile/token-partial-update/${action.id}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ function* updatePartialAdmin(action) {
 function* updateFullAdmin(action) {
     try {
         let result;
-           yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/${action.id}/`, {
+           yield fetch(`https://api.elbaayu.xyz/api-mobile/admin/${action.id}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ function* updateFullAdmin(action) {
 function* deleteAdmin(action) {
     try {
         let result;
-           yield fetch(`https://backend-complaint.herokuapp.com/api-mobile/admin/${action.id}/`, {
+           yield fetch(`https://api.elbaayu.xyz/api-mobile/admin/${action.id}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

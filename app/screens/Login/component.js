@@ -48,7 +48,7 @@ class Component extends React.Component {
   _token = async (device) => {
     console.log('_token', device)
     try {
-      await fetch(`https://backend-complaint.herokuapp.com/api-mobile/token-partial-update/${this.props.user.id}/`, {
+      await fetch(`https://api.elbaayu.xyz/api-mobile/token-partial-update/${this.props.user.id}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

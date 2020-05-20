@@ -4,7 +4,7 @@ import { put, takeLatest, call } from 'redux-saga/effects';
 function* fetchKategori(action) {
     try {
         let result;
-           yield fetch('https://backend-complaint.herokuapp.com/api-mobile/kategori/', {
+           yield fetch('https://api.elbaayu.xyz/api-mobile/kategori/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
