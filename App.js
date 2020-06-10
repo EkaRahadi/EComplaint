@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Alert} from 'react-native';
 import Router from './app/Router';
+import KomplainTanggapan from './app/screens/KomplainTanggapan';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
 export default class App extends Component {
@@ -40,7 +41,8 @@ export default class App extends Component {
   
   render() {
     return (
-        <Router/>
+        // <Router/>
+        <KomplainTanggapan/>
     );
   }
 }
