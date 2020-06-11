@@ -1,0 +1,364 @@
+
+{
+  "header": {
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200610.202341.4252.0.001.json",
+    "dumpEventTime": "2020-06-10T20:23:41Z",
+    "dumpEventTimeStamp": "1591795421435",
+    "processId": 4252,
+    "cwd": "E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint",
+    "commandLine": [
+      "node",
+      "E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint\\node_modules\\react-native\\scripts\\..\\cli.js",
+      "start"
+    ],
+    "nodejsVersion": "v12.5.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.5.0",
+      "v8": "7.5.288.22-node.14",
+      "uv": "1.29.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.38.0",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.5.0/node-v12.5.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.5.0/node-v12.5.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.5.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18363",
+    "osVersion": "Windows 10 Pro",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "AMD A8-6410 APU with AMD Radeon R5 Graphics    ",
+        "speed": 1996,
+        "user": 16632125,
+        "nice": 0,
+        "sys": 14887703,
+        "idle": 244250750,
+        "irq": 1355703
+      },
+      {
+        "model": "AMD A8-6410 APU with AMD Radeon R5 Graphics    ",
+        "speed": 1996,
+        "user": 16632125,
+        "nice": 0,
+        "sys": 14887703,
+        "idle": 244250750,
+        "irq": 1355703
+      },
+      {
+        "model": "AMD A8-6410 APU with AMD Radeon R5 Graphics    ",
+        "speed": 1996,
+        "user": 16632125,
+        "nice": 0,
+        "sys": 14887703,
+        "idle": 244250750,
+        "irq": 1355703
+      },
+      {
+        "model": "AMD A8-6410 APU with AMD Radeon R5 Graphics    ",
+        "speed": 1996,
+        "user": 16632125,
+        "nice": 0,
+        "sys": 14887703,
+        "idle": 244250750,
+        "irq": 1355703
+      }
+    ],
+    "host": "DESKTOP-MNH5K1F"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff6b7316e09",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10889"
+    },
+    {
+      "pc": "0x00007ff6b731a704",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+25476"
+    },
+    {
+      "pc": "0x00007ff6b7319728",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+21416"
+    },
+    {
+      "pc": "0x00007ff6b7402f5b",
+      "symbol": "v8::base::CPU::has_sse+38011"
+    },
+    {
+      "pc": "0x00007ff6b7be7e2e",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff6b7bd017a",
+      "symbol": "v8::SharedArrayBuffer::Externalize+842"
+    },
+    {
+      "pc": "0x00007ff6b7a6197c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff6b7a698af",
+      "symbol": "v8::internal::Heap::OldGenerationSizeOfObjects+4895"
+    },
+    {
+      "pc": "0x00007ff6b7a5fb43",
+      "symbol": "v8::internal::Heap::CollectGarbage+1235"
+    },
+    {
+      "pc": "0x00007ff6b7a5e3d4",
+      "symbol": "v8::internal::Heap::AddRetainedMap+2292"
+    },
+    {
+      "pc": "0x00007ff6b7a849f3",
+      "symbol": "v8::internal::Factory::NewRawOneByteString+83"
+    },
+    {
+      "pc": "0x00007ff6b78f6d5a",
+      "symbol": "v8::internal::String::SlowFlatten+394"
+    },
+    {
+      "pc": "0x00007ff6b77b57f0",
+      "symbol": "unibrow::Utf8::EncodeOneByte+672"
+    },
+    {
+      "pc": "0x00007ff6b77f87f8",
+      "symbol": "v8::internal::DispatchTableConstructor::AddRange+3288"
+    },
+    {
+      "pc": "0x00007ff6b7c90b1d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+614605"
+    },
+    {
+      "pc": "0x000000c2d76dfc12",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 40062976,
+    "totalCommittedMemory": 40062976,
+    "usedMemory": 36820496,
+    "availableMemory": 2161832288,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261832,
+        "used": 31960,
+        "available": 229872
+      },
+      "new_space": {
+        "memorySize": 1048576,
+        "committedMemory": 1048576,
+        "capacity": 1047328,
+        "used": 1047312,
+        "available": 16
+      },
+      "old_space": {
+        "memorySize": 31600640,
+        "committedMemory": 31600640,
+        "capacity": 31521744,
+        "used": 29569728,
+        "available": 1952016
+      },
+      "code_space": {
+        "memorySize": 950272,
+        "committedMemory": 950272,
+        "capacity": 899584,
+        "used": 566176,
+        "available": 333408
+      },
+      "map_space": {
+        "memorySize": 1839104,
+        "committedMemory": 1839104,
+        "capacity": 1836368,
+        "used": 1319040,
+        "available": 517328
+      },
+      "large_object_space": {
+        "memorySize": 4313088,
+        "committedMemory": 4313088,
+        "capacity": 4282824,
+        "used": 4282824,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 3456,
+        "used": 3456,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047328,
+        "used": 0,
+        "available": 1047328
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 45.515,
+    "kernelCpuSeconds": 26.546,
+    "cpuConsumptionPercent": 11.9504,
+    "maxRss": 150781952,
+    "pageFaults": {
+      "IORequired": 76942,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 2039,
+      "writes": 10
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\",
+    "=E:": "E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint",
+    "ACLOCAL_PATH": "C:\\Program Files\\Git\\mingw64\\share\\aclocal;C:\\Program Files\\Git\\usr\\share\\aclocal",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "ANDROID_HOME": "C:\\Users\\Elba\\AppData\\Local\\Android\\Sdk",
+    "APPDATA": "C:\\Users\\Elba\\AppData\\Roaming",
+    "COMMONPROGRAMFILES": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-MNH5K1F",
+    "COMSPEC": "C:\\Windows\\system32\\cmd.exe",
+    "CONFIG_SITE": "C:/Program Files/Git/mingw64/etc/config.site",
+    "DISPLAY": "needs-to-be-defined",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "EXEPATH": "C:\\Program Files\\Git",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "HOME": "C:\\Users\\Elba",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\Elba",
+    "HOSTNAME": "DESKTOP-MNH5K1F",
+    "INFOPATH": "C:\\Program Files\\Git\\usr\\local\\info;C:\\Program Files\\Git\\usr\\share\\info;C:\\Program Files\\Git\\usr\\info;C:\\Program Files\\Git\\share\\info",
+    "LANG": "en_US.UTF-8",
+    "LOCALAPPDATA": "C:\\Users\\Elba\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-MNH5K1F",
+    "MANPATH": "C:\\Program Files\\Git\\mingw64\\local\\man;C:\\Program Files\\Git\\mingw64\\share\\man;C:\\Program Files\\Git\\usr\\local\\man;C:\\Program Files\\Git\\usr\\share\\man;C:\\Program Files\\Git\\usr\\man;C:\\Program Files\\Git\\share\\man",
+    "MINGW_CHOST": "x86_64-w64-mingw32",
+    "MINGW_PACKAGE_PREFIX": "mingw-w64-x86_64",
+    "MINGW_PREFIX": "C:/Program Files/Git/mingw64",
+    "MSYSTEM": "MINGW64",
+    "MSYSTEM_CARCH": "x86_64",
+    "MSYSTEM_CHOST": "x86_64-w64-mingw32",
+    "MSYSTEM_PREFIX": "C:/Program Files/Git/mingw64",
+    "NUMBER_OF_PROCESSORS": "4",
+    "OneDrive": "C:\\Users\\Elba\\OneDrive",
+    "ORIGINAL_PATH": "C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\Elba\\bin;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files\\nodejs;C:\\Program Files\\Git\\cmd;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Users\\Elba\\AppData\\Local\\Android\\Sdk\\platform-tools;C:\\Program Files\\PuTTY;C:\\Users\\Elba\\AppData\\Local\\Programs\\Python\\Python38\\Scripts;C:\\Users\\Elba\\AppData\\Local\\Programs\\Python\\Python38;C:\\Users\\Elba\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Elba\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\Elba\\AppData\\Roaming\\npm;C:\\Users\\Elba\\AppData\\Roaming\\Composer\\vendor\\bin",
+    "ORIGINAL_TEMP": "C:/Users/Elba/AppData/Local/Temp",
+    "ORIGINAL_TMP": "C:/Users/Elba/AppData/Local/Temp",
+    "OS": "Windows_NT",
+    "PATH": "E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint\\node_modules\\react-native\\scripts\\node_modules\\.bin;E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint\\node_modules\\react-native\\node_modules\\.bin;E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint\\node_modules\\node_modules\\.bin;E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint\\node_modules\\.bin;E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\node_modules\\.bin;E:\\Kuliah\\Semester 6\\node_modules\\.bin;E:\\Kuliah\\node_modules\\.bin;E:\\node_modules\\.bin;C:\\Program Files\\nodejs;E:\\Kuliah\\Semester 6\\TUGAS AKHIR\\EComplaint\\node_modules\\.bin;C:\\Users\\Elba\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\local\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\Elba\\bin;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files\\nodejs;C:\\Program Files\\Git\\cmd;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Users\\Elba\\AppData\\Local\\Android\\Sdk\\platform-tools;C:\\Program Files\\PuTTY;C:\\Users\\Elba\\AppData\\Local\\Programs\\Python\\Python38\\Scripts;C:\\Users\\Elba\\AppData\\Local\\Programs\\Python\\Python38;C:\\Users\\Elba\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Elba\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\Elba\\AppData\\Roaming\\npm;C:\\Users\\Elba\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Program Files\\Git\\usr\\bin\\vendor_perl;C:\\Program Files\\Git\\usr\\bin\\core_perl",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC",
+    "PKG_CONFIG_PATH": "C:\\Program Files\\Git\\mingw64\\lib\\pkgconfig;C:\\Program Files\\Git\\mingw64\\share\\pkgconfig",
+    "PLINK_PROTOCOL": "ssh",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "AMD64 Family 22 Model 48 Stepping 1, AuthenticAMD",
+    "PROCESSOR_LEVEL": "22",
+    "PROCESSOR_REVISION": "3001",
+    "ProgramData": "C:\\ProgramData",
+    "PROGRAMFILES": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PROMPT": "$P$G",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "PWD": "E:/Kuliah/Semester 6/TUGAS AKHIR/EComplaint",
+    "RCT_METRO_PORT": "8081",
+    "SESSIONNAME": "Console",
+    "SHELL": "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+    "SHLVL": "2",
+    "SSH_ASKPASS": "C:/Program Files/Git/mingw64/libexec/git-core/git-gui--askpass",
+    "SYSTEMDRIVE": "C:",
+    "SYSTEMROOT": "C:\\Windows",
+    "TEMP": "C:\\Users\\Elba\\AppData\\Local\\Temp",
+    "TERM": "xterm",
+    "TMP": "C:\\Users\\Elba\\AppData\\Local\\Temp",
+    "TMPDIR": "C:\\Users\\Elba\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-MNH5K1F",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-MNH5K1F",
+    "USERNAME": "Elba",
+    "USERPROFILE": "C:\\Users\\Elba",
+    "VBOX_MSI_INSTALL_PATH": "C:\\Program Files\\Oracle\\VirtualBox\\",
+    "WINDIR": "C:\\Windows",
+    "_": "C:/Program Files/nodejs/node.exe"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\Windows\\SYSTEM32\\ntdll.dll",
+    "C:\\Windows\\System32\\KERNEL32.DLL",
+    "C:\\Windows\\System32\\KERNELBASE.dll",
+    "C:\\Windows\\System32\\WS2_32.dll",
+    "C:\\Windows\\System32\\RPCRT4.dll",
+    "C:\\Windows\\System32\\ADVAPI32.dll",
+    "C:\\Windows\\System32\\msvcrt.dll",
+    "C:\\Windows\\System32\\sechost.dll",
+    "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+    "C:\\Windows\\System32\\ucrtbase.dll",
+    "C:\\Windows\\System32\\USER32.dll",
+    "C:\\Windows\\System32\\win32u.dll",
+    "C:\\Windows\\System32\\GDI32.dll",
+    "C:\\Windows\\System32\\gdi32full.dll",
+    "C:\\Windows\\System32\\msvcp_win.dll",
+    "C:\\Windows\\System32\\PSAPI.DLL",
+    "C:\\Windows\\System32\\CRYPT32.dll",
+    "C:\\Windows\\System32\\MSASN1.dll",
+    "C:\\Windows\\System32\\bcrypt.dll",
+    "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\Windows\\SYSTEM32\\USERENV.dll",
+    "C:\\Windows\\System32\\profapi.dll",
+    "C:\\Windows\\SYSTEM32\\WINMM.dll",
+    "C:\\Windows\\SYSTEM32\\winmmbase.dll",
+    "C:\\Windows\\System32\\cfgmgr32.dll",
+    "C:\\Windows\\System32\\bcryptPrimitives.dll",
+    "C:\\Windows\\System32\\IMM32.DLL",
+    "C:\\Windows\\System32\\powrprof.dll",
+    "C:\\Windows\\System32\\UMPDC.dll",
+    "C:\\Windows\\system32\\uxtheme.dll",
+    "C:\\Windows\\System32\\combase.dll",
+    "C:\\Windows\\system32\\mswsock.dll",
+    "C:\\Windows\\System32\\kernel.appcore.dll",
+    "C:\\Windows\\system32\\napinsp.dll",
+    "C:\\Windows\\system32\\pnrpnsp.dll",
+    "C:\\Windows\\SYSTEM32\\DNSAPI.dll",
+    "C:\\Windows\\System32\\NSI.dll",
+    "C:\\Windows\\System32\\winrnr.dll",
+    "C:\\Windows\\system32\\NLAapi.dll",
+    "C:\\Windows\\system32\\wshbth.dll",
+    "C:\\Windows\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\Windows\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\Windows\\System32\\rasadhlp.dll",
+    "C:\\Windows\\System32\\fwpuclnt.dll"
+  ]
+}
