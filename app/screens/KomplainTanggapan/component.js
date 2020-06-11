@@ -91,30 +91,26 @@ class Component extends React.Component {
 // }
 
     render() {
+      console.log(this.props.route.params.data)
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
-          {/* <OrientationLoadingOverlay
-                visible={this.state.isLoading}
-                color="white"
-                indicatorSize="large"
-                messageFontSize={24}
-                message="Loading..."
-            /> */}
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row' }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}
+            >
                 <Image style={{alignSelf:'center',width:15, height:15, marginTop:20, marginLeft:15, alignSelf:'flex-start'}} 
                   source={require('../../assets/back.png')}/>
             </TouchableOpacity>
-            <View style={{flexDirection:'row', marginHorizontal: '25%', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{flexDirection:'row', marginHorizontal: '30%', justifyContent: 'center', alignItems: 'center'}}>
               <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
                   source={require('../../assets/bachelor.jpg')}/>
               <View style={{alignSelf:'center', marginLeft:10}}>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
-                  Keluhan
+                  Detail
                 </Text>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
-                  Bagian ____
+                  Keluhan
                 </Text>  
               </View>    
             </View>
@@ -124,21 +120,30 @@ class Component extends React.Component {
           
             <View style={styles.card}>
             <ScrollView>
-                <View style={{backgroundColor:'#adadad', width:300, height:20, marginTop:25}}>
+                <View style={{backgroundColor:'#adadad', height:20, marginTop:25}}>
                   <Text style={{color:'#061F3E', fontSize:14, marginHorizontal:10, fontWeight:'bold', fontStyle:'italic'}}>Keluhan :</Text>
                 </View>
 
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
-                  Isinya Keluhan
+                  {this.props.route.params.data.keluhan}
                 </Text>
 
-                <View style={{backgroundColor:'#adadad', width:300, height:20, marginTop:125}}>
+                <View style={{backgroundColor:'#adadad', height:20, marginTop:125}}>
                   <Text style={{color:'#061F3E', fontSize:14, marginHorizontal:10, fontWeight:'bold', fontStyle:'italic'}}>Tanggapan :</Text>
                 </View>
-
+                
+                {this.props.route.params.data.status.status === 'Reported' ?
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
-                  Isinya Tanggapan
+                  Complaint Reported
                 </Text>
+                 : this.props.route.params.data.status.status === 'Belum Ditanggapi' ? 
+                <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
+                 Belum Ditanggapi
+                </Text>
+               : 
+                <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
+                  {this.props.route.params.data.tanggapan}
+                </Text>}
 
               </ScrollView>
               

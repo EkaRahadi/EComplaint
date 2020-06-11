@@ -39,16 +39,22 @@ class Component extends React.Component {
           keyExtractor={(item, index) => index.toString()}
           renderItem = {({item}) => {
             return (
-                <View style={styles.card}>
-                  {item.status.status === 'Belum Ditanggapi' ?
-                    <Text style={[styles.status]}>{item.status.status}</Text>
-                  :  item.status.status === 'Reported' ?
-                    <Text style={[styles.status, {color : '#989898'}]}>{item.status.status}</Text>
-                  : <Text style={[styles.status]}>Sudah Ditanggapi</Text>
-                  }
-                  {/* <Text style={[styles.status, {color : '#A54D4D'}]}>{item.status.status}</Text> */}
-                  <Text style={styles.complaints}>{item.keluhan}</Text>
-                </View>
+              <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('KomplainTanggapan', {
+                data: item
+              })}
+              >
+                  <View style={styles.card}>
+                    {item.status.status === 'Belum Ditanggapi' ?
+                      <Text style={[styles.status]}>{item.status.status}</Text>
+                    :  item.status.status === 'Reported' ?
+                      <Text style={[styles.status, {color : '#989898'}]}>{item.status.status}</Text>
+                    : <Text style={[styles.status]}>Sudah Ditanggapi</Text>
+                    }
+                    {/* <Text style={[styles.status, {color : '#A54D4D'}]}>{item.status.status}</Text> */}
+                    <Text style={styles.complaints} numberOfLines={1}>{item.keluhan}</Text>
+                  </View>
+              </TouchableOpacity>
             );
           }}
           />
@@ -60,6 +66,7 @@ class Component extends React.Component {
 
   const styles = StyleSheet.create({
     card:{
+      flexShrink: 1,
       backgroundColor: 'white',
       marginTop:10,
       marginHorizontal: 20,
@@ -71,6 +78,7 @@ class Component extends React.Component {
         height: 3, },
       shadowOpacity: 0.8,
       elevation: 5,
+      height: 50
     },
     complaints:{
       fontSize:13,
