@@ -34,22 +34,28 @@ class Component extends React.Component {
           </View>
 
           {/* CONTENT */}
-          <FlatList
-          data={this.props.keluhan}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem = {({item}) => {
-            return (
-                <View style={styles.card}>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('Tanggapan', {
-                    data: item
-                  })}>
-                    <Text style={styles.status}>Beri Tanggapan</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.complaints}>{item.keluhan}</Text>
-                </View>
-            );
-          }}
-          />
+          {this.props.keluhan.length > 0 ?
+            <FlatList
+            data={this.props.keluhan}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem = {({item}) => {
+              return (
+                  <View style={styles.card}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Tanggapan', {
+                      data: item
+                    })}>
+                      <Text style={styles.status}>Beri Tanggapan</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.complaints} numberOfLines={1}>{item.keluhan}</Text>
+                  </View>
+              );
+            }}
+            />
+          :
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text>Tidak ada Data</Text>
+            </View>
+          }
 
         </View>
       );
@@ -69,7 +75,8 @@ class Component extends React.Component {
         height: 3, },
       shadowOpacity: 0.8,
       elevation: 5,
-      paddingLeft:5
+      paddingLeft:5,
+      height: 50
     },
     complaints:{
       fontSize:12,

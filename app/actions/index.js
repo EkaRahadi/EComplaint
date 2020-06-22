@@ -104,12 +104,13 @@ export const deleteAdmin = (id, onSuccess, onError) => {
     }
 }
 
-export const fetchKeluhanKategoriOnSuperAdmin = (id, onSuccess, onError) => {
+export const fetchKeluhanKategoriOnSuperAdmin = (id, onSuccess, onError, date) => {
     return {
         type: GET_KELUHAN_BY_KATEGORI_ON_SUPER_ADMIN,
         id,
         onSuccess,
-        onError
+        onError,
+        date
     }
 }
 

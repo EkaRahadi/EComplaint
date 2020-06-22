@@ -90,27 +90,32 @@ onError = (data) => {
           </View>
 
           {/* CONTENT */}
-          <FlatList
-          data={this.props.keluhanPending}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem = {({item}) => {
-            return (
-                <View style={styles.card}>
-                  <View style={{flexDirection:'row', justifyContent: 'flex-end', marginRight:10}}>
-                    <TouchableOpacity onPress={() => this._handleAccept(item)}>
-                      <Text style={styles.approve}>Approve</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.devide}> | </Text>
-                    <TouchableOpacity onPress={() => this._handleDecline(item)}>
-                      <Text style={styles.decline}>Decline</Text>
-                    </TouchableOpacity>
+          {this.props.keluhanPending.length > 0 ?
+            <FlatList
+            data={this.props.keluhanPending}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem = {({item}) => {
+              return (
+                  <View style={styles.card}>
+                    <View style={{flexDirection:'row', justifyContent: 'flex-end', marginRight:10}}>
+                      <TouchableOpacity onPress={() => this._handleAccept(item)}>
+                        <Text style={styles.approve}>Approve</Text>
+                      </TouchableOpacity>
+                      <Text style={styles.devide}> | </Text>
+                      <TouchableOpacity onPress={() => this._handleDecline(item)}>
+                        <Text style={styles.decline}>Decline</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={styles.complaints}>{item.keluhan}</Text> 
                   </View>
-                  <Text style={styles.complaints}>{item.keluhan}</Text> 
-                </View>
-            );
-          }}
-          />
-
+              );
+            }}
+            />
+            :
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text>Tidak ada Data</Text>
+              </View>
+          }
         </View>
       );
     }

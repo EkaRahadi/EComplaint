@@ -2,29 +2,63 @@ import * as types from '../actions/actionTypes';
 import { put, takeLatest, call } from 'redux-saga/effects';
 
 function* fetchListKeluhanByKategoriOnSuperAdmin(action) {
-    try {
-        let result;
-        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+    if (action.date === null) {
+        try {
+            let result;
+            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+            .then(data => {
+                result = data
+            })
+    
+            if (result) {
+                yield put({type: types.SET_KELUHAN_HASIL_FETCH_BY_KATEGORI, data: result.data})
+                action.onSuccess(result.data)
             }
-        }).then(res => res.json())
-        .then(data => {
-            result = data
-        })
-
-        if (result) {
-            yield put({type: types.SET_KELUHAN_HASIL_FETCH_BY_KATEGORI, data: result.data})
-            action.onSuccess(result.data)
+        } catch (errorCatch) {
+            console.log(errorCatch)
+            const err = {
+                message: 'Error Server Connection',
+                error: errorCatch,
+                downloadDisable: true
+            }
+            action.onError(err)
         }
-    } catch (errorCatch) {
-        const err = {
-            message: 'Error Server Connection',
-            error: errorCatch
-        }
-        action.onError(err)
     }
+    else {
+        try {
+            let result;
+            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date : action.date
+                })
+            }).then(res => res.json())
+            .then(data => {
+                result = data
+            })
+    
+            if (result) {
+                yield put({type: types.SET_KELUHAN_HASIL_FETCH_BY_KATEGORI, data: result.data})
+                action.onSuccess(result.data)
+            }
+        } catch (errorCatch) {
+            const err = {
+                message: 'Error Server Connection',
+                error: errorCatch,
+                downloadDisable: true
+            }
+            action.onError(err)
+        }
+    }
+    
 }
 
 function* fetchListKeluhanStatusPending(action) {

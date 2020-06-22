@@ -24,9 +24,10 @@ class Component extends React.Component {
             }
         })
         //Dispatch untuk get list keluhan berdasarkan kategori dari parameter menu
-        this.props.onFetchKeluhan(id, this.onSuccess, this.onError)
+        this.props.onFetchKeluhan(id, this.onSuccess, this.onError, null)
         this.props.navigation.navigate('KeluhanSuperAdmin', {
-            headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar' 
+            headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar',
+            kategoriId: id 
         });
     }
 
@@ -41,7 +42,7 @@ class Component extends React.Component {
         this.props.navigation.navigate('Report')
      }
 
-    onSuccess = () => {
+    onSuccess = (data) => {
         console.log('Success Fetch Keluhan')
         this.setState({
             ...this.state,
@@ -224,8 +225,8 @@ const mapStateToProps = (state) => {
     
 const mapDispatchToProps = (dispatch) => {
     return {
-      onFetchKeluhan: (id, onSuccess, onError) => {
-          dispatch(fetchKeluhanKategoriOnSuperAdmin(id, onSuccess, onError))
+      onFetchKeluhan: (id, onSuccess, onError, date) => {
+          dispatch(fetchKeluhanKategoriOnSuperAdmin(id, onSuccess, onError, date))
       },
       onFetchReport: (onSuccess, onError) => {
           dispatch(fetchKeluhanStatusPending(onSuccess, onError))
