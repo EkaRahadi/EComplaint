@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     elevation: 5,
     height: 90, 
-    width:130,
+    width:140,
     alignItems: 'center', 
     marginHorizontal: 40,
     borderRadius:3,
