@@ -48,13 +48,14 @@ class Component extends React.Component {
   _token = async (device) => {
     console.log('_token', device)
     try {
-      await fetch(`https://api.elbaayu.xyz/api-mobile/token-partial-update/${this.props.user.id}/`, {
+      await fetch(`https://api.elbaayu.xyz/api-mobile/token/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           'token': device.userId,
+          'admin': this.props.user.id
         })
       }).then(res => res.json())
       .then(data => {

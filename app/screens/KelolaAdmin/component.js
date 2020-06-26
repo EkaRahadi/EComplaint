@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-community/async-storage';
+import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import {connect} from 'react-redux';
 
 import {logout} from '../../actions/index';
@@ -9,10 +9,14 @@ import {logout} from '../../actions/index';
 
 class Component extends React.Component {
 
+    onIds = async (device) => {
+        await this.props.onLogout(device.userId)
+      }
+
     _logout = async () => {
+        OneSignal.addEventListener('ids', this.onIds);
         try {
             await AsyncStorage.removeItem('user_account');
-            await this.props.onLogout()
             this.props.navigation.replace('Login')
           } catch(e) {
             // remove error
@@ -110,8 +114,8 @@ const mapStateToProps = (state) => {
     
   const mapDispatchToProps = (dispatch) => {
     return {
-      onLogout: () => {
-        dispatch(logout());
+      onLogout: (userId) => {
+        dispatch(logout(userId));
       },
   
     }

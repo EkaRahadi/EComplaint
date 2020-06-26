@@ -23,9 +23,10 @@ export const setUserInfo = (data) => {
     }
 }
 
-export const logout = () => {
+export const logout = (userId) => {
     return {
-        type: LOGOUT
+        type: LOGOUT,
+        userId
     }
 }
 

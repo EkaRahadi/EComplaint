@@ -39,8 +39,28 @@ function* login(action) {
     }
 }
 
-function* logout() {
-    yield put({type: types.SET_USER_INFO, data: {}})
+function* logout(action) {
+    //Api Call
+    let result;
+    yield fetch(`https://api.elbaayu.xyz/api-mobile/token-delete/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({
+            'token': action.userId
+            })
+        }).then(res => res.json())
+        .then(data => {
+            result = data
+        })
+
+        if (result.success == true) {
+            yield put({type: types.SET_USER_INFO, data: {}})
+        }
+        else {
+            console.log('Gagal Hapus Token')
+        }
 }
 
 function* autoLogin(action) {
