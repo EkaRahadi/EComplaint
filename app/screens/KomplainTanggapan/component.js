@@ -18,80 +18,7 @@ renderSeparator = () => {
 };  
 
 class Component extends React.Component {
-  constructor(props) {
-    super(props); 
-    this.state = {
-     tanggapan: '',
-     isLoading: false
-  };
-}
-
-// _handleTanggapanButton = () => {
-//   this.setState({
-//     ...this.state,
-//     isLoading: true
-//   })
-//   data = {
-//     ...this.props.route.params.data,
-//     status: {
-//       status: 2
-//     },
-//     kategori: {
-//       kategori: this.props.route.params.data.kategori.id
-//     },
-//     tanggapan: this.state.tanggapan
-//   }
-//   //Dispatch untuk update tanggapan dan status keluhan
-//   this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
-// }
-
-// _handleLaporkanButton = () => {
-//   this.setState({
-//     ...this.state,
-//     isLoading: true
-//   })
-//   data = {
-//     ...this.props.route.params.data,
-//     status: {
-//       status: 4
-//     },
-//     kategori: {
-//       kategori: this.props.route.params.data.kategori.id
-//     },
-//   }
-
-//   //Dispatch untuk update tanggapan dan status keluhan
-//   this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
-// }
-
-// onSuccess = (data) => {
-//   console.log('Success Update Keluhan')
-//   this.setState({
-//       ...this.state,
-//       isLoading: false
-//   })
-//   //Navigate To this.props.navigation.navigate('HomeAdmin')
-//   Alert.alert(
-//     "Berhasil",
-//     "Action Berhasil Dilakukan",
-//     [
-//       { text: "OK", onPress: () => this.props.navigation.navigate('HomeAdmin') }
-//     ],
-//     { cancelable: false }
-//   );
-// }
-
-// onError = (data) => {
-//   console.log('Error Update Keluhan')
-//   this.setState({
-//       ...this.state,
-//       isLoading: false
-//   })
-//   Alert.alert('Action Failed !')
-// }
-
     render() {
-      console.log(this.props.route.params.data)
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
           {/* HEADER */}
@@ -128,7 +55,21 @@ class Component extends React.Component {
                   {this.props.route.params.data.keluhan}
                 </Text>
 
-                <View style={{backgroundColor:'#adadad', height:20, marginTop:125}}>
+                {this.props.route.params.data.image !== null && 
+                <View style={{backgroundColor:'#adadad', marginTop:25}}>
+                  <Text style={{color:'#061F3E', fontSize:14, marginHorizontal:10, fontWeight:'bold', fontStyle:'italic'}}>
+                   Data dukung :
+                   </Text>
+                </View>
+                }
+                {this.props.route.params.data.image !== null && 
+                <Image
+                style={{width: '95%', height: 300, alignSelf: 'center', marginTop: 10}}
+                source={{uri: 'https://api.elbaayu.xyz'+this.props.route.params.data.image}}
+                />
+                }
+
+                <View style={{backgroundColor:'#adadad', height:20, marginTop:25}}>
                   <Text style={{color:'#061F3E', fontSize:14, marginHorizontal:10, fontWeight:'bold', fontStyle:'italic'}}>Tanggapan :</Text>
                 </View>
                 

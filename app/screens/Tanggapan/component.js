@@ -124,9 +124,25 @@ onError = (data) => {
           
             <View style={styles.card}>
             <ScrollView>
+                <Text style={{marginTop:10, fontSize:12, fontWeight:'bold', marginLeft:10}}>
+                  Keluhan :
+                </Text>
                 <Text style={{color:'grey', fontSize:14, marginTop:10, fontWeight:'100', marginHorizontal:10}}>
                   {this.props.route.params.data.keluhan}
                 </Text>
+
+                
+                {this.props.route.params.data.image !== null && 
+                <View>
+                  <Text style={{marginTop:10, fontSize:12, fontWeight:'bold', marginLeft:10}}>
+                    Data Pendukung :
+                  </Text>
+                  <Image
+                  style={{width: '95%', height: 300, marginVertical: 10, alignSelf: 'center'}}
+                  source={{uri: 'https://api.elbaayu.xyz'+this.props.route.params.data.image}}
+                  />
+                </View>
+                }
 
                 <Text style={{marginTop:20, fontSize:12, fontWeight:'bold', marginLeft:10}}>
                   Tanggapi :
