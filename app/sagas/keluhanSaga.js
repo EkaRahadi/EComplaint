@@ -171,6 +171,7 @@ function* tanggapanLaporkanKeluhan(action) {
          if (result.success === true) {
             yield action.onSuccess(result.data)
         } else {
+            console.log(result);
             const err = {
                 message: 'Tidak dapat mengupdate status/tanggapan keluhan',
                 error: result

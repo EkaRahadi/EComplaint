@@ -42,6 +42,7 @@ _handleTanggapanButton = () => {
     tanggapan: this.state.tanggapan
   }
   //Dispatch untuk update tanggapan dan status keluhan
+  delete data.image;
   this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
 }
 
@@ -61,6 +62,7 @@ _handleLaporkanButton = () => {
   }
 
   //Dispatch untuk update tanggapan dan status keluhan
+  delete data.image;
   this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
 }
 
@@ -92,7 +94,7 @@ onError = (data) => {
 
     render() {
       return (
-        <View style={{backgroundColor: '#C9C9C9', flex:1}}>
+        <View style={{backgroundColor: '#C9C9C9', flex:1, paddingBottom: 60}}>
           <OrientationLoadingOverlay
                 visible={this.state.isLoading}
                 color="white"
@@ -194,14 +196,11 @@ onError = (data) => {
 
   const styles = StyleSheet.create({
     card:{
-      height:400,
-      // width:300,
-      // backgroundColor:'white',
-      // marginVertical: 3,
-      // borderRadius:20,
-      // alignSelf: 'center',
+      paddingHorizontal: 5,
+      paddingVertical: 5,
+      marginBottom: 30,
       backgroundColor: 'white',
-      marginTop:40,
+      marginTop:30,
       marginHorizontal: 40,
       borderRadius:15,
       paddingBottom:5,
