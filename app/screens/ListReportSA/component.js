@@ -24,6 +24,7 @@ _handleAccept = (item) =>  {
     }
   }
   //isLoading true
+  delete data.image;
   this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
 }
 
@@ -38,6 +39,7 @@ _handleDecline = (item) =>  {
       status: 1
     }
   }
+  delete data.image;
   this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
 }
 
