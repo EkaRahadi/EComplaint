@@ -84,13 +84,13 @@ class Component extends React.Component {
                 messageFontSize={24}
                 message="Loading..."
             />
-            <View style={{height: 150, backgroundColor:'#061F3E', paddingHorizontal: 10, paddingTop:10, flexDirection: 'row', justifyContent: 'space-between'}}>
-                <View style={{ alignItems: 'center'}}>
+            <View style={{height: 150, backgroundColor:'#061F3E', paddingHorizontal: 10, paddingTop:10, flexDirection: 'column'}}>
+                <Image style={{width:65, height:65}} 
+                source={require('../../assets/logopolindra.png')}/>
+                <View>
                     <Text style={{color: '#D6D6D6', fontSize: 15, fontWeight: 'normal', fontFamily: 'Roboto'}}>Selamat Datang di </Text>
                     <Text style={{color: '#D6D6D6', fontSize:15, fontWeight: 'normal'}}>E-Complaint Polindra</Text>
                 </View>
-                <Image style={{width:65, height:65}} 
-                source={require('../../assets/logopolindra.png')}/>
             </View>
             <View style={{flex:1, alignItems: 'center'}}>
                 <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
