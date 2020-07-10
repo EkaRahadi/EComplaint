@@ -1,76 +1,11 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux';
-import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
-import { updateKeluhanStatus } from '../../actions/index';
 
 class Component extends React.Component {
-  constructor(props) {
-    super(props); 
-    this.state = {
-     isLoading: false
-  };
-}
-
-_handleAccept = (item) =>  {
-  this.setState({
-    ...this.state,
-    isLoading: true
-  })
-  const data = {
-    ...item,
-    status: {
-      status: 3
-    }
-  }
-  //isLoading true
-  delete data.image;
-  this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
-}
-
-_handleDecline = (item) =>  {
-  this.setState({
-    ...this.state,
-    isLoading: true
-  })
-  const data = {
-    ...item,
-    status: {
-      status: 1
-    }
-  }
-  delete data.image;
-  this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
-}
-
-onSuccess = () => {
-  console.log('Success Update Keluhan')
-  this.setState({
-      ...this.state,
-      isLoading: false
-  })
-  this.props.navigation.navigate('HomeSuperAdmin', { screen: 'KelolaKeluhan' });
-}
-
-onError = (data) => {
-  console.log('Error Update Keluhan')
-  this.setState({
-      ...this.state,
-      isLoading: false
-  })
-  Alert.alert('Gagal Update Keluhan')
-}
-
     render() {
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
-          <OrientationLoadingOverlay
-            visible={this.state.isLoading}
-            color="white"
-            indicatorSize="large"
-            messageFontSize={24}
-            message="Loading..."
-          />
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row'}}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -98,18 +33,17 @@ onError = (data) => {
             keyExtractor={(item, index) => index.toString()}
             renderItem = {({item}) => {
               return (
+                <TouchableOpacity 
+                onPress={() => this.props.navigation.navigate("DetailLaporan",{
+                  data: item
+                })}>
                   <View style={styles.card}>
                     <View style={{flexDirection:'row', justifyContent: 'flex-end', marginRight:10}}>
-                      <TouchableOpacity onPress={() => this._handleAccept(item)}>
-                        <Text style={styles.approve}>Approve</Text>
-                      </TouchableOpacity>
-                      <Text style={styles.devide}> | </Text>
-                      <TouchableOpacity onPress={() => this._handleDecline(item)}>
-                        <Text style={styles.decline}>Decline</Text>
-                      </TouchableOpacity>
+                      <Text style={{color: '#061F3E'}}> See Details </Text>
                     </View>
-                    <Text style={styles.complaints}>{item.keluhan}</Text> 
+                    <Text style={styles.complaints} numberOfLines={1}>{item.keluhan}</Text> 
                   </View>
+                </TouchableOpacity>
               );
             }}
             />
@@ -142,27 +76,6 @@ onError = (data) => {
       color:'black',
       marginHorizontal:5,
       marginVertical: 5
-    },
-    approve:{
-      color:'#061F3E',
-      fontSize: 12,
-      fontWeight:'bold',
-      alignSelf: "flex-end",
-      marginTop: 8,
-    },
-    decline:{
-      color:'red',
-      fontSize: 12,
-      fontWeight:'bold',
-      alignSelf: "flex-end",
-      marginTop: 8,
-    },
-    devide:{
-      color:'#444444',
-      fontSize: 12,
-      fontWeight:'bold',
-      alignSelf: "flex-end",
-      marginTop: 8,
     }
   })
 
@@ -176,9 +89,7 @@ const mapStateToProps = (state) => {
     
 const mapDispatchToProps = (dispatch) => {
     return {
-      onUpdateStatusKeluhan: (data, onSuccess, onError) => {
-        dispatch(updateKeluhanStatus(data, onSuccess, onError))
-      }
+      
     }
 }
   

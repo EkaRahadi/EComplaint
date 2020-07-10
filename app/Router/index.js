@@ -16,6 +16,7 @@ import ListReportSA from '../screens/ListReportSA';
 import KeluhanSA from '../screens/KeluhanSA';
 import KeluhanAdmin from '../screens/KeluhanAdmin';
 import KomplainTanggapan from '../screens/KomplainTanggapan';
+import DetailLaporan from '../screens/DetailLaporan';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default class Router extends Component {
             <Stack.Screen name="KeluhanAdmin" component={KeluhanAdmin}/>
             <Stack.Screen name="Tanggapan" component={Tanggapan}/>
             <Stack.Screen name="KomplainTanggapan" component={KomplainTanggapan}/>
+            <Stack.Screen name="DetailLaporan" component={DetailLaporan}/>
         </Stack.Navigator>
       </NavigationContainer>
     );
