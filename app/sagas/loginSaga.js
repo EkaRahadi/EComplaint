@@ -56,7 +56,8 @@ function* logout(action) {
         })
 
         if (result.success == true) {
-            yield put({type: types.SET_USER_INFO, data: {}})
+            yield put({type: types.SET_USER_INFO, data: {}});
+            yield put({type: types.RESET_KATEGORI});
         }
         else {
             console.log('Gagal Hapus Token')

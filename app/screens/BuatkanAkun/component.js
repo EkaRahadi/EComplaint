@@ -3,6 +3,7 @@ import {Text, View, Image, TextInput, StyleSheet,
 Picker, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import {connect} from 'react-redux';
+import lodash from 'lodash';
 import { createAdmin } from '../../actions/index';
 
 
@@ -17,6 +18,7 @@ class Component extends React.Component {
       nik: '',
       jabatan: '',
       password: '',
+      jurusan: 'teknik-informatika'
 
      
   };
@@ -29,14 +31,21 @@ class Component extends React.Component {
     })
   };
 
+  handleJurusan = (item) => {
+    this.setState({
+      ...this.state,
+      jurusan: item
+    })
+  }
+
   _create = async () => {
     this.setState({
       ...this.state,
       isLoading: true
     })
     let kategoriId;
-    if(this.state.nama==='' || this.state.username === '' || this.state.nik === ''
-    || this.state.jabatan === '' || this.state.password === '') {
+    if (this.state.nama === '' && this.state.username === '' && this.state.nik === ''
+    && this.state.jabatan === '' && this.state.password === '') {
       Alert.alert('Mohon isi semua field !');
     }
     else {
@@ -52,6 +61,7 @@ class Component extends React.Component {
         nik: this.state.nik,
         jabatan: this.state.jabatan,
         status_admin: 'Admin',
+        jurusan: lodash.startCase(this.state.jurusan),
         password: this.state.password,
         token: null,
         kategori: {
@@ -87,6 +97,7 @@ class Component extends React.Component {
   }
 
     render() {
+      console.log(this.state.jurusan);
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
           <OrientationLoadingOverlay
@@ -229,6 +240,35 @@ class Component extends React.Component {
                 </Picker>
                 </View>
             </View>
+
+            {/* Kategori Jurusan */}
+            {this.state.selectedValue === 'Tenaga Pengajar (Dosen)' ? 
+              <View style={{marginTop:25}}>
+                <Text style={{color:'#061F3E', fontSize: 14, marginLeft: 45}}>
+                  Jurusan
+                </Text>
+                <View style={{
+                          borderColor: '#061F3E',
+                          borderWidth:1,
+                          borderRadius: 5,
+                          marginTop:15,
+                          marginHorizontal: '11%'
+                      }}>
+                  <Picker
+                    selectedValue={this.state.selectedValue}
+                    style={{height:30, color:'#061F3E', fontSize: 14,}}
+                    onValueChange={(itemValue) => this.handleJurusan(itemValue)}
+                  >
+                    <Picker.Item label="Teknik Informatika" value="teknik-informatika" />
+                    <Picker.Item label="Teknik Mesin" value="teknik-mesin" />
+                    <Picker.Item label="Teknik Pendingin Dan Tata Udara" value="teknik-pendingin-dan-tata-udara" />
+                    <Picker.Item label="Keperawatan" value="keperawatan" />
+                  </Picker>
+                </View>
+              </View>
+              :
+              null
+            }
 
             <TouchableOpacity 
               // disabled={this.state.isLoading}

@@ -1,4 +1,4 @@
-import { SET_KATEGORI } from '../actions/actionTypes'
+import { SET_KATEGORI, RESET_KATEGORI } from '../actions/actionTypes'
 
 const kategoriReducer =(state=[], action) => {
     switch(action.type) {
@@ -7,6 +7,8 @@ const kategoriReducer =(state=[], action) => {
                 ...state,
                 ...action.data
             ]
+        case RESET_KATEGORI:
+            return state = []
         default:
             return state;
     }

@@ -27,23 +27,27 @@ class Component extends React.Component {
 }
 
 _handleTanggapanButton = () => {
-  this.setState({
-    ...this.state,
-    isLoading: true
-  })
-  data = {
-    ...this.props.route.params.data,
-    status: {
-      status: 2
-    },
-    kategori: {
-      kategori: this.props.route.params.data.kategori.id
-    },
-    tanggapan: this.state.tanggapan
+  if (this.state.tanggapan !== '') {
+    this.setState({
+      ...this.state,
+      isLoading: true
+    })
+    data = {
+      ...this.props.route.params.data,
+      status: {
+        status: 2
+      },
+      kategori: {
+        kategori: this.props.route.params.data.kategori.id
+      },
+      tanggapan: this.state.tanggapan
+    }
+    //Dispatch untuk update tanggapan dan status keluhan
+    delete data.image;
+    this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
+  } else {
+    Alert.alert("Field Tanggapan tidak boleh kosong !")
   }
-  //Dispatch untuk update tanggapan dan status keluhan
-  delete data.image;
-  this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
 }
 
 _handleLaporkanButton = () => {
