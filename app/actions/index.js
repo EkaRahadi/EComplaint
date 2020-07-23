@@ -132,12 +132,13 @@ export const updateKeluhanStatus = (data, onSuccess, onError) => {
     }
 }
 
-export const fetchKeluhanKategoriStatusBlmDitanggapi = (id, onSuccess, onError) => {
+export const fetchKeluhanKategoriStatusBlmDitanggapi = (id, onSuccess, onError, jurusan) => {
     return {
         type: FETCH_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI,
         id,
         onSuccess,
-        onError
+        onError,
+        jurusan
     }
 }
 

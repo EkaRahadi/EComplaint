@@ -97,7 +97,6 @@ class Component extends React.Component {
   }
 
     render() {
-      console.log(this.state.jurusan);
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
           <OrientationLoadingOverlay

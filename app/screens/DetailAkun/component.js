@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, Image, TouchableOpacity,
 StyleSheet, TextInput, Picker, Alert} from 'react-native';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import lodash from 'lodash';
 import {connect} from 'react-redux';
 import { updatePartialAdmin, updateFullAdmin, deleteAdmin } from '../../actions/index';
  
@@ -19,6 +20,7 @@ class Component extends React.Component {
      username: this.props.route.params.data.username,
      nik: this.props.route.params.data.nik,
      jabatan: this.props.route.params.data.jabatan,
+     jurusan: this.props.route.params.data.jurusan,
      password: 'password',
      editable: false,
      isLoading: false
@@ -31,11 +33,19 @@ setSelectedValue = (item) => {
       this.setState({
         ...this.state,
         selectedValue: item,
-        kategoriId: value.id
+        kategoriId: value.id,
+        jurusan : item === 'Tenaga Pengajar (Dosen)' ? lodash.kebabCase(this.props.route.params.data.jurusan) : null
       })
     }
   })
 };
+
+handleJurusan = (item) => {
+  this.setState({
+    ...this.state,
+    jurusan: lodash.kebabCase(item)
+  })
+}
 
 onSuccess = (data) => {
   this.setState({
@@ -94,7 +104,8 @@ _onUpdate = async () => {
       nama: this.state.nama,
       nik: this.state.nik,
       jabatan: this.state.jabatan,
-      kategori: this.state.kategoriId
+      kategori: this.state.kategoriId,
+      jurusan: this.state.jurusan
     }
 
     const dataFull = {
@@ -105,6 +116,7 @@ _onUpdate = async () => {
       jabatan: this.state.jabatan,
       status_admin: "Admin",
       password: this.state.password,
+      jurusan: this.state.jurusan,
       kategori: {
         kategori:this.state.kategoriId
       }
@@ -277,6 +289,36 @@ _onDelete = async () => {
                         </Picker>
                         </View>
                     </View>
+
+                  {/* Kategori Jurusan */}
+                  {this.state.jurusan !== null ? 
+                    <View style={{marginTop:25}}>
+                      <Text style={{color:'#061F3E', fontSize: 15, marginLeft: '5%', fontWeight: 'bold'}}>
+                        Jurusan
+                      </Text>
+                      <View style={{
+                                borderColor: '#061F3E',
+                                borderWidth:1,
+                                borderRadius: 5,
+                                marginTop:15,
+                                marginHorizontal: '11%'
+                            }}>
+                        <Picker
+                          enabled={this.state.editable}
+                          selectedValue={lodash.kebabCase(this.state.jurusan)}
+                          style={{height:30, color:'#061F3E', fontSize: 14,}}
+                          onValueChange={(itemValue) => this.handleJurusan(itemValue)}
+                        >
+                          <Picker.Item label="Teknik Informatika" value="teknik-informatika" />
+                          <Picker.Item label="Teknik Mesin" value="teknik-mesin" />
+                          <Picker.Item label="Teknik Pendingin Dan Tata Udara" value="teknik-pendingin-dan-tata-udara" />
+                          <Picker.Item label="Keperawatan" value="keperawatan" />
+                        </Picker>
+                      </View>
+                    </View>
+                    :
+                    null
+                  }
 
                     {/* Button */}
                       <View style={{flexDirection:'row', marginTop:30, justifyContent: 'center'}}>

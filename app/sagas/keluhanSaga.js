@@ -123,34 +123,69 @@ function* updateStatusKeluhan(action) {
 }
 
 function* fetchKeluhanKategoriStatusBlmDitanggapi(action) {
-    try {
-        let result = [];
-        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-        .then(data => {
-            data.data.map(item => {
-                if(item.status.status === 'Belum Ditanggapi') {
-                    result.push(item)
-                }
+    if (action.jurusan !== null) {
+        try {
+            let result = [];
+            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    jurusan: action.jurusan
+                })
+            }).then(res => res.json())
+            .then(data => {
+                data.data.map(item => {
+                    if(item.status.status === 'Belum Ditanggapi') {
+                        result.push(item)
+                    }
+                })
             })
-        })
-
-        if (result) {
-            yield put({type: types.SAVE_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI, data: result})
-            action.onSuccess(result)
+    
+            if (result) {
+                yield put({type: types.SAVE_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI, data: result})
+                action.onSuccess(result)
+            }
+        } catch (errorCatch) {
+            const err = {
+                message: 'Error Server Connection',
+                error: errorCatch
+            }
+            action.onError(err)
+            console.log('Error Server Keluhan Saga', errorCatch)
         }
-    } catch (errorCatch) {
-        const err = {
-            message: 'Error Server Connection',
-            error: errorCatch
+    } else {
+        try {
+            let result = [];
+            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+            .then(data => {
+                data.data.map(item => {
+                    if(item.status.status === 'Belum Ditanggapi') {
+                        result.push(item)
+                    }
+                })
+            })
+    
+            if (result) {
+                yield put({type: types.SAVE_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI, data: result})
+                action.onSuccess(result)
+            }
+        } catch (errorCatch) {
+            const err = {
+                message: 'Error Server Connection',
+                error: errorCatch
+            }
+            action.onError(err)
+            console.log('Error Server Keluhan Saga', errorCatch)
         }
-        action.onError(err)
-        console.log('Error Server Keluhan Saga', errorCatch)
     }
+    
     // yield put({type: types.SAVE_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI, data: result.data})
 }
 

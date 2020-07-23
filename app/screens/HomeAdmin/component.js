@@ -50,9 +50,13 @@ class Component extends React.Component {
                 id = item.id
             }
         })
-        console.log(id)
+        // console.log(menu)
         //Dispatch untuk fetch data berdasarkan kategori dan statusnya Belum ditanggapi
-        this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError)
+        if (menu === 'Tenaga Pengajar (Dosen)') {
+            this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError, this.props.user.jurusan)
+        } else {
+            this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError, null)
+        }
         await this.props.navigation.navigate('KeluhanAdmin', {
             headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar'
         })
@@ -203,8 +207,8 @@ const mapStateToProps = (state) => {
       onFetchKategori: (onSuccess, onError) => {
           dispatch(fetchKategori(onSuccess,onError))
       },
-      onFetchKeluhanStatusBlmDitanggapi: (id, onSuccess, onError) => {
-          dispatch(fetchKeluhanKategoriStatusBlmDitanggapi(id, onSuccess, onError))
+      onFetchKeluhanStatusBlmDitanggapi: (id, onSuccess, onError, jurusan) => {
+          dispatch(fetchKeluhanKategoriStatusBlmDitanggapi(id, onSuccess, onError, jurusan))
       }
   
     }
