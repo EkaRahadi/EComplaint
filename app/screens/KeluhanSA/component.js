@@ -257,7 +257,7 @@ class Component extends React.Component {
         height: 3, },
       shadowOpacity: 0.8,
       elevation: 5,
-      height: 50
+      height: 55
     },
     complaints:{
       fontSize:13,

@@ -76,13 +76,13 @@ class Component extends React.Component {
       shadowOpacity: 0.8,
       elevation: 5,
       paddingLeft:5,
-      height: 50
+      height: 55
     },
     complaints:{
       fontSize:12,
       color:'black',
       marginHorizontal:5,
-      marginVertical: 5
+      marginVertical: 5,
     },
     status:{
       color:'#061F3E',

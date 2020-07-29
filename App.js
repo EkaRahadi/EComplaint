@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Alert} from 'react-native';
 import Router from './app/Router';
 import KomplainTanggapan from './app/screens/KomplainTanggapan';
+import SplashScreen from 'react-native-splash-screen';
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
 export default class App extends Component {
@@ -22,6 +23,12 @@ export default class App extends Component {
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
     OneSignal.removeEventListener('ids', this.onIds);
+  }
+
+  componentDidMount() {
+    // do stuff while splash screen is shown
+      // After having done stuff (such as async tasks) hide the splash screen
+        SplashScreen.hide();
   }
 
   onReceived(notification) {
