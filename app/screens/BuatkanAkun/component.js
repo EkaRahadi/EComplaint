@@ -18,7 +18,7 @@ class Component extends React.Component {
       nik: '',
       jabatan: '',
       password: '',
-      jurusan: 'teknik-informatika'
+      jurusan: null
 
      
   };
@@ -39,16 +39,16 @@ class Component extends React.Component {
   }
 
   _create = async () => {
-    this.setState({
-      ...this.state,
-      isLoading: true
-    })
     let kategoriId;
-    if (this.state.nama === '' && this.state.username === '' && this.state.nik === ''
-    && this.state.jabatan === '' && this.state.password === '') {
+    if (this.state.nama === '' || this.state.username === '' || this.state.nik === ''
+    || this.state.jabatan === '' || this.state.password === '') {
       Alert.alert('Mohon isi semua field !');
     }
     else {
+      this.setState({
+        ...this.state,
+        isLoading: true
+      })
       await this.props.kategori.map(value => {
         if(value.kategori === this.state.selectedValue) {
           kategoriId = value.id
@@ -61,7 +61,7 @@ class Component extends React.Component {
         nik: this.state.nik,
         jabatan: this.state.jabatan,
         status_admin: 'Admin',
-        jurusan: lodash.startCase(this.state.jurusan),
+        jurusan: this.state.jurusan === null ? null : lodash.startCase(this.state.jurusan),
         password: this.state.password,
         token: null,
         kategori: {

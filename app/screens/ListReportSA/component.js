@@ -12,9 +12,9 @@ class Component extends React.Component {
                 <Image style={{alignSelf:'center',width:15, height:15, marginTop:20, marginLeft:15, alignSelf:'flex-start'}} 
                   source={require('../../assets/back.png')}/>
             </TouchableOpacity>
-            <View style={{flexDirection:'row', marginHorizontal: '25%', justifyContent: 'center', alignItems: 'center'}}>
-              <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
-                  source={require('../../assets/list.jpg')}/>
+            <View style={{flexDirection:'row', marginHorizontal: '28%', justifyContent: 'center', alignItems: 'center'}}>
+              {/* <Image style={{alignSelf:'center',width:32, height:32, borderRadius:15}} 
+                  source={require('../../assets/list.jpg')}/> */}
               <View style={{alignSelf:'center', marginLeft:10}}>
                 <Text style={{alignSelf:'center', color:'#ffffff', fontSize:15}}>
                   Daftar

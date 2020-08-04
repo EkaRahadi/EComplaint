@@ -105,11 +105,15 @@ class Component extends React.Component {
 
   _login = () => {
     let {username, password} = this.state;
-    this.setState({
-      ...this.state,
-      isLoading: true
-    })
-    this.props.onLogin({username, password}, this.onSuccess, this.onError)
+    if (username === '' || password === '') {
+      Alert.alert("Mohon isi semua field !");
+    } else {
+      this.setState({
+        ...this.state,
+        isLoading: true
+      })
+      this.props.onLogin({username, password}, this.onSuccess, this.onError)
+    }
   }
   
     render() {
