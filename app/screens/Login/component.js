@@ -89,7 +89,7 @@ class Component extends React.Component {
       ...this.state,
       isLoading: false
     })
-    // Navigate to Home and Check which home will display ? Admin Home / Super Admin use this.props.navigation.replace('Home')
+    //Listener untuk mendapatkan token device untuk notifikasi
     OneSignal.addEventListener('ids', this.onIds);
     
 }

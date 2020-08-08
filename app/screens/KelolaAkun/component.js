@@ -14,9 +14,21 @@ class Component extends React.Component {
 }
 
 async componentDidMount() {
-  if(this.state.isLoading === true) {
+  if (this.state.isLoading === true) {
     this.props.onFetchListAdmin(this.onSuccess, this.onError);
   }
+  this.focusListener = this.props.navigation.addListener('focus', async () => {
+    this.setState({
+      ...this.state,
+      isLoading: true
+    });
+    console.log("onFocus");
+    this.props.onFetchListAdmin(this.onSuccess, this.onError);
+  });
+}
+
+componentWillUnmount() {
+  this.focusListener();
 }
 
 onSuccess = (data) => {
@@ -31,11 +43,12 @@ onError = (err) => {
     ...this.state,
     isLoading: false
   })
-  Alert.alert(err.message)
+  Alert.alert("Gagal mengambil list admin " + err.message)
   console.log('Error Fetch List Admin',err)
 }
 
     render() {
+      console.log(this.state.isLoading);
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
           <OrientationLoadingOverlay

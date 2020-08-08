@@ -1,28 +1,21 @@
 import * as types from '../actions/actionTypes';
 import { put, takeLatest, call } from 'redux-saga/effects';
+import API from './api';
 
 function* createAdmin(action) {
     try {
-        fetch(`https://api.elbaayu.xyz/api-mobile/admin/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(action.data)
-        }).then(res => res.json())
-        .then(result => {
-            console.log(result)
-            if(result.success === true) {
-                action.onSuccess(result.data)
+        const result = yield call(API.postData, `/admin/`, action.data);
+        if(result.success === true) {
+            action.onSuccess(result.data)
+        }
+        else {
+            const err = {
+            message: 'Gagal membuat admin',
+            error: result
             }
-            else {
-                const err = {
-                    message: 'Gagal membuat admin',
-                    error: result
-                }
-                action.onError(err)
-            }
-        })
+            action.onError(err)
+        }
+        
     } catch (errorCath) {
         const err = {
             message: 'Error Connection Server',
@@ -34,18 +27,8 @@ function* createAdmin(action) {
 
 function* fetchListAdmin(action) {
     try {
-        let result;
-        yield fetch(`https://api.elbaayu.xyz/api-mobile/admin/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-        .then(data => {
-            result = data
-        })
+        const result = yield call(API.fetchData, `/admin/`,);
 
-        //
         if (result) {
             yield put({type: types.SET_LIST_ADMIN, data: result.data})
             action.onSuccess(result.data)
@@ -61,17 +44,7 @@ function* fetchListAdmin(action) {
 
 function* updatePartialAdmin(action) {
     try {
-        let result;
-           yield fetch(`https://api.elbaayu.xyz/api-mobile/token-partial-update/${action.id}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(action.data)
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+        const result = yield call(API.postData, `/token-partial-update/${action.id}/`, action.data);
 
         if (result.success === true) {
             yield action.onSuccess(result.data)
@@ -95,17 +68,7 @@ function* updatePartialAdmin(action) {
 
 function* updateFullAdmin(action) {
     try {
-        let result;
-           yield fetch(`https://api.elbaayu.xyz/api-mobile/admin/${action.id}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(action.data)
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+        const result = yield call(API.postData, `/admin/${action.id}/`, action.data);
 
         if (result.success === true) {
             yield action.onSuccess(result.data)
@@ -129,16 +92,7 @@ function* updateFullAdmin(action) {
 
 function* deleteAdmin(action) {
     try {
-        let result;
-           yield fetch(`https://api.elbaayu.xyz/api-mobile/admin/${action.id}/`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-              }
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+        const result = yield call(API.deleteAdmin, `/admin/${action.id}/`);
 
         if (result.success === true) {
             yield action.onSuccess(result.data)

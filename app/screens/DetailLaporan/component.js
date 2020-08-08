@@ -3,6 +3,8 @@ import {Text, View, Image, ScrollView, StyleSheet, TouchableOpacity, Alert} from
 import {connect} from 'react-redux';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import { updateKeluhanStatus } from '../../actions/index';
+import { fetchKeluhanStatusPending } from '../../actions/index';
+import lodash from 'lodash';
 
 class Component extends React.Component {
     constructor(props) {
@@ -12,7 +14,7 @@ class Component extends React.Component {
       };
     }
     
-    _handleAccept = (item) =>  {
+    _handleAccept = async (item) =>  {
       this.setState({
         ...this.state,
         isLoading: true
@@ -23,12 +25,12 @@ class Component extends React.Component {
           status: 3
         }
       }
-      //isLoading true
+
       delete data.image;
-      this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
+      await this.props.onUpdateStatusKeluhan(data, this.onSuccessAccept, this.onErrorAccept);
     }
     
-    _handleDecline = (item) =>  {
+    _handleDecline = async (item) =>  {
       this.setState({
         ...this.state,
         isLoading: true
@@ -40,25 +42,75 @@ class Component extends React.Component {
         }
       }
       delete data.image;
-      this.props.onUpdateStatusKeluhan(data, this.onSuccess, this.onError);
+      await this.props.onUpdateStatusKeluhan(data, this.onSuccessDecline, this.onErrorDecline) 
     }
-    
-    onSuccess = () => {
-      console.log('Success Update Keluhan')
+
+    onSuccessAccept = () => {
+     
+      console.log('Laporan diterima !')
       this.setState({
           ...this.state,
           isLoading: false
       })
-      this.props.navigation.navigate('HomeSuperAdmin', { screen: 'KelolaKeluhan' });
+      Alert.alert(
+        "Berhasil",
+        "Laporan diterima !",
+        [
+          { text: "OK", onPress: () => this.props.navigation.goBack() }
+        ]
+      );
     }
-    
-    onError = (data) => {
-      console.log('Error Update Keluhan')
+
+    onErrorAccept = (data) => {
+      console.log('Gagal Menerima Laporan !')
       this.setState({
           ...this.state,
           isLoading: false
       })
-      Alert.alert('Gagal Update Keluhan')
+      Alert.alert('Gagal Menerima Laporan !')
+    }
+
+    onSuccessDecline = async () => {
+      console.log('Laporan ditolak !')
+      this.setState({
+          ...this.state,
+          isLoading: false
+      })
+      Alert.alert(
+        "Berhasil",
+        "Laporan ditolak !",
+        [
+          { text: "OK", onPress: () => this.props.navigation.goBack() }
+        ]
+      );
+    }
+
+    onErrorDecline = (data) => {
+      console.log('Gagal Menolak Laporan !')
+      this.setState({
+          ...this.state,
+          isLoading: false
+      })
+      Alert.alert('Gagal Menolak Laporan !')
+    }
+    
+
+    onErrorReport = (data) => {
+      console.log('Gagal Mengambil Data Laporan !')
+      this.setState({
+          ...this.state,
+          isLoading: false
+      })
+      Alert.alert('Gagal Mengambil Data Laporan !')
+    }
+
+    onSuccessReport = (data) => {
+      console.log('Berhasil Mengambil Data Laporan !')
+      this.setState({
+          ...this.state,
+          isLoading: false
+      })
+      Alert.alert('Berhasil Mengambil Data Laporan !')
     }
     
 
@@ -100,7 +152,7 @@ class Component extends React.Component {
                 </View>
 
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
-                  {this.props.route.params.data.keluhan}
+                  {lodash.upperFirst(this.props.route.params.data.keluhan)}
                 </Text>
 
                 {this.props.route.params.data.image !== null && 
@@ -122,10 +174,10 @@ class Component extends React.Component {
                 </View>
 
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 70, paddingVertical: 15}}>
-                    <TouchableOpacity onPress={() => this._handleAccept(this.props.route.params.data)}>
+                    <TouchableOpacity style={{backgroundColor: '#061F3E', paddingVertical: 5, paddingHorizontal: 5, borderRadius: 5}} onPress={() => this._handleAccept(this.props.route.params.data)}>
                         <Text style={styles.approve}>Approve</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this._handleDecline(this.props.route.params.data)}>
+                    <TouchableOpacity style={{backgroundColor: 'red', paddingVertical: 5, paddingHorizontal: 7, borderRadius: 5}} onPress={() => this._handleDecline(this.props.route.params.data)}>
                         <Text style={styles.decline}>Decline</Text>
                     </TouchableOpacity>
                 </View>
@@ -142,6 +194,7 @@ class Component extends React.Component {
 
 const styles = StyleSheet.create({
     card:{
+      height: '85%',
       backgroundColor: 'white',
       marginBottom: 80,
       marginTop:20,
@@ -170,18 +223,18 @@ const styles = StyleSheet.create({
       fontSize:14,
     },
     approve:{
-        color:'#061F3E',
+        color:'#FFFFFF',
         fontSize: 17,
         fontWeight:'bold',
         alignSelf: "flex-end",
-        marginTop: 8,
+        // marginTop: 8,
       },
       decline:{
-        color:'red',
+        color:'#FFFFFF',
         fontSize: 17,
         fontWeight:'bold',
         alignSelf: "flex-end",
-        marginTop: 8,
+        // marginTop: 8,
       }
   })
 
@@ -197,7 +250,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
       onUpdateStatusKeluhan: (data, onSuccess, onError) => {
         dispatch(updateKeluhanStatus(data, onSuccess, onError))
-      }
+      },
+      onFetchReport: (onSuccess, onError) => {
+        dispatch(fetchKeluhanStatusPending(onSuccess, onError))
+    }
     }
 }
   

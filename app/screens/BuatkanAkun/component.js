@@ -18,7 +18,7 @@ class Component extends React.Component {
       nik: '',
       jabatan: '',
       password: '',
-      jurusan: null
+      jurusan: 'teknik-informatika'
 
      
   };
@@ -45,23 +45,28 @@ class Component extends React.Component {
       Alert.alert('Mohon isi semua field !');
     }
     else {
-      this.setState({
-        ...this.state,
-        isLoading: true
-      })
-      await this.props.kategori.map(value => {
-        if(value.kategori === this.state.selectedValue) {
-          kategoriId = value.id
-        }
-      })
-      //Data for create admin
+      if (this.state.username.match(/\s/g)){
+        Alert.alert('Username tidak boleh ada spasi !');
+      }
+      else {
+        this.setState({
+          ...this.state,
+          isLoading: true
+        })
+        await this.props.kategori.map(value => {
+          if(value.kategori === this.state.selectedValue) {
+            kategoriId = value.id
+          }
+        });
+
+        //Data for create admin
       const data = {
         username: this.state.username,
         nama: this.state.nama,
         nik: this.state.nik,
         jabatan: this.state.jabatan,
         status_admin: 'Admin',
-        jurusan: this.state.jurusan === null ? null : lodash.startCase(this.state.jurusan),
+        jurusan: kategoriId === 4 ? lodash.startCase(this.state.jurusan) : null,
         password: this.state.password,
         token: null,
         kategori: {
@@ -70,6 +75,8 @@ class Component extends React.Component {
       }
       //Dispatch untuk create akun
       await this.props.onCreateAdmin(data, this.onSuccess, this.onError)
+      } // if space
+      
     }
   }
 
@@ -93,10 +100,11 @@ class Component extends React.Component {
       isLoading: false
     })
     Alert.alert(err.message)
-    console.log('Error Create Admin',err)
+    console.log('Error Membuat Admin',err)
   }
 
     render() {
+      console.log(this.state.jurusan);
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
           <OrientationLoadingOverlay
@@ -229,10 +237,6 @@ class Component extends React.Component {
                   style={{height:30, color:'#061F3E', fontSize: 14,}}
                   onValueChange={(itemValue) => this.setSelectedValue(itemValue)}
                 >
-                  {/* <Picker.Item label="Keuangan" value="keuangan" />
-                  <Picker.Item label="Sarana Prasarana" value="sarpras" />
-                  <Picker.Item label="Tenaga Pengajar" value="pengajar" />
-                  <Picker.Item label="Akademik" value="js" /> */}
                   {this.props.kategori.map((item, index) => {
                       return (<Picker.Item label={item.kategori} value={item.kategori} key={item.id}/>) 
                   })}
@@ -254,7 +258,7 @@ class Component extends React.Component {
                           marginHorizontal: '11%'
                       }}>
                   <Picker
-                    selectedValue={this.state.selectedValue}
+                    selectedValue={this.state.jurusan}
                     style={{height:30, color:'#061F3E', fontSize: 14,}}
                     onValueChange={(itemValue) => this.handleJurusan(itemValue)}
                   >

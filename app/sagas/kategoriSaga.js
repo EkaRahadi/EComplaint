@@ -1,18 +1,11 @@
 import * as types from '../actions/actionTypes';
 import { put, takeLatest, call } from 'redux-saga/effects';
+import API from './api';
 
 function* fetchKategori(action) {
     try {
-        let result;
-           yield fetch('https://api.elbaayu.xyz/api-mobile/kategori/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-              }
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+        const result = yield call(API.fetchData, `/kategori/`);
+
         //PUT
         if(result.success === true) {
             yield put({type: types.SET_KATEGORI, data: result.data})

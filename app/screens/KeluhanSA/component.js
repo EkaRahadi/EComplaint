@@ -6,6 +6,7 @@ import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay'
 import { Button, Menu, Provider } from 'react-native-paper';
 import { fetchKeluhanKategoriOnSuperAdmin, fetchKeluhanStatusPending } from '../../actions/index';
 import RNFetchBlob from 'rn-fetch-blob';
+import lodash from 'lodash';
 class Component extends React.Component {
   constructor(props) {
     super(props); 
@@ -225,7 +226,7 @@ class Component extends React.Component {
                         : <Text style={[styles.status]}>Sudah Ditanggapi</Text>
                         }
                         {/* <Text style={[styles.status, {color : '#A54D4D'}]}>{item.status.status}</Text> */}
-                        <Text style={styles.complaints} numberOfLines={1}>{item.keluhan}</Text>
+                        <Text style={styles.complaints} numberOfLines={1}>{lodash.upperFirst(item.keluhan)}</Text>
                       </View>
                   </TouchableOpacity>
                 );

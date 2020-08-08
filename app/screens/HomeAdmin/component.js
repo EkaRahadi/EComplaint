@@ -39,10 +39,6 @@ class Component extends React.Component {
     }
 
     _handlePress = async (menu) => {
-        this.setState({
-            ...this.state,
-            isLoading: true
-        })
 
         let id;
         this.props.kategori.map(item => {
@@ -53,17 +49,28 @@ class Component extends React.Component {
         // console.log(menu)
         //Dispatch untuk fetch data berdasarkan kategori dan statusnya Belum ditanggapi
         if (menu === 'Tenaga Pengajar (Dosen)') {
-            this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError, this.props.user.jurusan)
+            await this.props.navigation.navigate('KeluhanAdmin', {
+                headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar',
+                id : id,
+                jurusan: this.props.user.jurusan
+            })
+            // await this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError, this.props.user.jurusan)
         } else {
-            this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError, null)
+            await this.props.navigation.navigate('KeluhanAdmin', {
+                headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar',
+                id : id,
+                jurusan: null
+            })
+            // await this.props.onFetchKeluhanStatusBlmDitanggapi(id, this.onSuccess, this.onError, null)
         }
-        await this.props.navigation.navigate('KeluhanAdmin', {
-            headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar'
-        })
+        // await this.props.navigation.navigate('KeluhanAdmin', {
+        //     headerName: menu === 'Akademik' ? 'Akademik' : menu === 'Keuangan' ? 'Keuangan' : menu === 'Sarana Prasarana' ? 'Sarpras' : 'Tenaga Pengajar'
+        // })
     }
 
     onSuccess = (data) => {
-        console.log('Success Fetch Kategori / Keluhan Status Belum DiTanggapi')
+        console.log('Success Fetch Kategori / Keluhan Status Belum DiTanggapi');
+        console.log(data);
         this.setState({
             ...this.state,
             isLoading: false

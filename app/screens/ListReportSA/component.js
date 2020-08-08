@@ -1,11 +1,58 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux';
+import { fetchKeluhanStatusPending } from '../../actions/index';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import lodash from 'lodash';
 
 class Component extends React.Component {
+  constructor(props) {
+    super(props); 
+    this.state = {
+     isLoading: true
+    };
+}
+
+async componentDidMount() {
+  if(this.state.isLoading === true) {
+    await this.props.onFetchReport(this.onSuccess, this.onError);
+  }
+  this.focusListener = this.props.navigation.addListener('focus', async () => {
+    console.log("Focus");
+    await this.props.onFetchReport(this.onSuccess, this.onError);
+  })
+}
+
+componentWillUnmount() {
+  this.focusListener();
+}
+
+onSuccess = (data) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+}
+
+onError = (err) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+  Alert.alert("Gagal mengambil list laporan " + err.message)
+  console.log('Error Fetch List Laporan',err)
+}
     render() {
+      console.log(this.state.isLoading);
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
+           <OrientationLoadingOverlay
+              visible={this.state.isLoading}
+              color="white"
+              indicatorSize="large"
+              messageFontSize={24}
+              message="Loading..."
+            />
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row'}}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -41,7 +88,7 @@ class Component extends React.Component {
                     <View style={{flexDirection:'row', justifyContent: 'flex-end', marginRight:10}}>
                       <Text style={{color: '#061F3E'}}> See Details </Text>
                     </View>
-                    <Text style={styles.complaints} numberOfLines={1}>{item.keluhan}</Text> 
+                    <Text style={styles.complaints} numberOfLines={1}>{lodash.upperFirst(item.keluhan)}</Text> 
                   </View>
                 </TouchableOpacity>
               );
@@ -89,7 +136,9 @@ const mapStateToProps = (state) => {
     
 const mapDispatchToProps = (dispatch) => {
     return {
-      
+      onFetchReport: (onSuccess, onError) => {
+        dispatch(fetchKeluhanStatusPending(onSuccess, onError))
+      }
     }
 }
   

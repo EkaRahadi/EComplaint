@@ -1,18 +1,63 @@
 import React from 'react';
 import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
+import lodash from 'lodash';
+import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
+import { fetchKeluhanKategoriStatusBlmDitanggapi } from '../../actions/index';
 
 class Component extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
-     
+     isLoading: true,
   };
 }
+
+  async componentDidMount() {
+    if (this.state.isLoading === true) {
+      this.props.onFetchKeluhanStatusBlmDitanggapi(this.props.route.params.id, this.onSuccess, this.onError, this.props.route.params.jurusan);
+    }
+    this.focusListener = this.props.navigation.addListener('focus', async () => {
+      this.setState({
+        ...this.state,
+        isLoading: true
+      });
+      console.log("onFocus");
+      this.props.onFetchKeluhanStatusBlmDitanggapi(this.props.route.params.id, this.onSuccess, this.onError, this.props.route.params.jurusan);
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener();
+  }
+
+  onSuccess = (data) => {
+    console.log('Success Fetch Kategori / Keluhan Status Belum DiTanggapi');
+    console.log(data);
+    this.setState({
+        ...this.state,
+        isLoading: false
+    })
+  }
+
+  onError = (data) => {
+      console.log('Error Fetch Kategori / Keluhan Status Belum DiTanggapi')
+      this.setState({
+          ...this.state,
+          isLoading: false
+      })
+  }
 
     render() {
       return (
         <View style={{backgroundColor: '#C9C9C9', flex:1}}>
+          <OrientationLoadingOverlay
+              visible={this.state.isLoading}
+              color="white"
+              indicatorSize="large"
+              messageFontSize={24}
+              message="Loading..."
+            />
           {/* HEADER */}
           <View style={{backgroundColor:'#061F3E', width:'100%', height:60, flexDirection:'row' }}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -42,11 +87,13 @@ class Component extends React.Component {
               return (
                   <View style={styles.card}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Tanggapan', {
-                      data: item
+                      data: item,
+                      id: this.props.route.params.id,
+                      jurusan: this.props.route.params.jurusan
                     })}>
                       <Text style={styles.status}>Beri Tanggapan</Text>
                     </TouchableOpacity>
-                    <Text style={styles.complaints} numberOfLines={1}>{item.keluhan}</Text>
+                    <Text style={styles.complaints} numberOfLines={1}>{lodash.upperFirst(item.keluhan)}</Text>
                   </View>
               );
             }}
@@ -104,7 +151,9 @@ const mapStateToProps = (state) => {
     
   const mapDispatchToProps = (dispatch) => {
     return {
-  
+      onFetchKeluhanStatusBlmDitanggapi: (id, onSuccess, onError, jurusan) => {
+        dispatch(fetchKeluhanKategoriStatusBlmDitanggapi(id, onSuccess, onError, jurusan))
+      }
     }
   }
   

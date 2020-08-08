@@ -5,6 +5,7 @@ import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay'
 import lodash from 'lodash';
 import {connect} from 'react-redux';
 import { updatePartialAdmin, updateFullAdmin, deleteAdmin } from '../../actions/index';
+import {fetchListAdmin} from '../../actions/index';
  
 
 class Component extends React.Component {
@@ -47,18 +48,57 @@ handleJurusan = (item) => {
   })
 }
 
-onSuccess = (data) => {
+onSuccessUpdate = (data) => {
   this.setState({
     ...this.state,
     isLoading: false
   })
   Alert.alert(
     "Berhasil",
-    "Action Berhasil Dijalankan",
+    "Berhasil Update Admin",
     [
-      { text: "OK", onPress: () => this.props.navigation.navigate('HomeSuperAdmin') }
+      { text: "OK", onPress: () => this.props.navigation.goBack() }
     ]
   );
+}
+
+onSuccessDelete = (data) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+  Alert.alert(
+    "Berhasil",
+    "Berhasil Delete Admin",
+    [
+      { text: "OK", onPress: () => this.props.navigation.goBack() }
+    ]
+  );
+}
+
+onSuccess = (data) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+}
+
+onErrorDelete = (err) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+  Alert.alert("Gagal Menghapus Admin")
+  console.log('Error Delete Admin',err)
+}
+
+onErrorUpdate = (err) => {
+  this.setState({
+    ...this.state,
+    isLoading: false
+  })
+  Alert.alert("Gagal Mengupdate Admin")
+  console.log('Error Update Admin',err)
 }
 
 onError = (err) => {
@@ -66,8 +106,7 @@ onError = (err) => {
     ...this.state,
     isLoading: false
   })
-  Alert.alert(err.message)
-  console.log('Error update / delete Admin',err)
+  console.log('Error Fetch Akun',err)
 }
 
 _onCancel = () => {
@@ -126,11 +165,12 @@ _onUpdate = async () => {
     // cek password baru apakah masukin password baru ?
     if(this.state.password === 'password') {
       //dispatch ke action update admin partial
-      await this.props.onUpdatePartialAdmin(dataPartial, adminId, this.onSuccess, this.onError)
+      await this.props.onUpdatePartialAdmin(dataPartial, adminId, this.onSuccessUpdate, this.onErrorUpdate)
     } else {
       //dispatch ke action update keseluruhan (new pass yg perlu di enkrip)
-      await this.props.onUpdateFullAdmin(dataFull, adminId, this.onSuccess, this.onError)
+      await this.props.onUpdateFullAdmin(dataFull, adminId, this.onSuccessUpdate, this.onErrorUpdate)
     }
+    await this.props.onFetchListAdmin(this.onSuccess, this.onError);
   }
 }
 
@@ -139,7 +179,8 @@ _onDelete = async () => {
     ...this.state,
     isLoading: true
   })
-  await this.props.onDeleteAdmin(this.props.route.params.data.id, this.onSuccess, this.onError)
+  await this.props.onDeleteAdmin(this.props.route.params.data.id, this.onSuccessDelete, this.onErrorDelete)
+  await this.props.onFetchListAdmin(this.onSuccess, this.onError);
 }
 
     render() {
@@ -389,7 +430,10 @@ const mapDispatchToProps = (dispatch) => {
       },
       onDeleteAdmin: (id, onSuccess, onError) => {
         dispatch(deleteAdmin(id, onSuccess, onError))
-      }
+      },
+      onFetchListAdmin: (onSuccess, onError) => {
+        dispatch(fetchListAdmin(onSuccess,onError))
+    }
     }
 }
   

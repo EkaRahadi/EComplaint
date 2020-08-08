@@ -2,20 +2,10 @@ import React from 'react';
 import {Text, View, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import {connect} from 'react-redux';
+import lodash from 'lodash';
 
 import { tanggapanLaporkanKeluhan } from '../../actions/index';
-
-renderSeparator = () => {  
-  return (  
-      <View  
-          style={{  
-              height: 1,  
-              width: "100%",  
-              backgroundColor: "#000",  
-          }}  
-      />  
-  );  
-};  
+ 
 
 class Component extends React.Component {
     render() {
@@ -52,7 +42,7 @@ class Component extends React.Component {
                 </View>
 
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
-                  {this.props.route.params.data.keluhan}
+                  {lodash.upperFirst(this.props.route.params.data.keluhan)}
                 </Text>
 
                 {this.props.route.params.data.image !== null && 
@@ -83,7 +73,7 @@ class Component extends React.Component {
                 </Text>
                : 
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
-                  {this.props.route.params.data.tanggapan}
+                  {lodash.upperFirst(this.props.route.params.data.tanggapan)}
                 </Text>}
 
               </ScrollView>
@@ -99,7 +89,7 @@ class Component extends React.Component {
 
   const styles = StyleSheet.create({
     card:{
-      height:400,
+      height:'85%',
       // width:300,
       // backgroundColor:'white',
       // marginVertical: 3,

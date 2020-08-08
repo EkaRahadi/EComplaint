@@ -1,19 +1,11 @@
 import * as types from '../actions/actionTypes';
 import { put, takeLatest, call } from 'redux-saga/effects';
+import API from './api';
 
 function* fetchListKeluhanByKategoriOnSuperAdmin(action) {
     if (action.date === null) {
         try {
-            let result;
-            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+            const result = yield call(API.fetchData, `/complaint-kategori/${action.id}/`);
     
             if (result) {
                 yield put({type: types.SET_KELUHAN_HASIL_FETCH_BY_KATEGORI, data: result.data})
@@ -30,20 +22,12 @@ function* fetchListKeluhanByKategoriOnSuperAdmin(action) {
         }
     }
     else {
+        const data = {
+            date: action.date
+        }
         try {
-            let result;
-            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    date : action.date
-                })
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+            const result = yield call(API.postData, `/complaint-kategori/${action.id}/`, data);
+            console.log(result);
     
             if (result) {
                 yield put({type: types.SET_KELUHAN_HASIL_FETCH_BY_KATEGORI, data: result.data})
@@ -62,24 +46,19 @@ function* fetchListKeluhanByKategoriOnSuperAdmin(action) {
 }
 
 function* fetchListKeluhanStatusPending(action) {
+    // let result;
     try {
-        let result;
         const id = 4 // ini adalah ID status pending di DB
-        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-by-status/${id}/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-        .then(data => {
-            result = data
-        })
-
+        
+        const result = yield call(API.fetchData, `/complaint-by-status/${id}/`);
         if (result) {
+            // console.log(result);
             yield put({type: types.SET_KELUHAN_STATUS_PENDING, data: result.data})
             action.onSuccess(result.data)
         }
+
     } catch (errorCatch) {
+        console.log(errorCatch);
         const err = {
             message: 'Error Server Connection',
             error: errorCatch
@@ -90,20 +69,12 @@ function* fetchListKeluhanStatusPending(action) {
 
 function* updateStatusKeluhan(action) {
     try {
-        let result;
-        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint/`, {
-         method: 'POST',
-         headers: {
-             'Content-Type': 'application/json'
-           },
-           body: JSON.stringify(action.data)
-         }).then(res => res.json())
-         .then(data => {
-             result = data
-         })
+        const result = yield call(API.postData, `/complaint/`, action.data);
 
          if (result.success === true) {
+             console.log(result);
             yield action.onSuccess(result.data)
+            yield put({type: types.DELETE_KELUHAN_STATUS_PENDING, data: action.data})
         } else {
             const err = {
                 message: 'Tidak dapat mengupdate status keluhan',
@@ -126,21 +97,14 @@ function* fetchKeluhanKategoriStatusBlmDitanggapi(action) {
     if (action.jurusan !== null) {
         try {
             let result = [];
-            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    jurusan: action.jurusan
-                })
-            }).then(res => res.json())
-            .then(data => {
-                data.data.map(item => {
-                    if(item.status.status === 'Belum Ditanggapi') {
-                        result.push(item)
-                    }
-                })
+            const data = {
+                jurusan: action.jurusan
+            }
+            const response = yield call(API.postData, `/complaint-kategori/${action.id}/`, data);
+            response.data.map(item => {
+                if(item.status.status === 'Belum Ditanggapi') {
+                    result.push(item)
+                }
             })
     
             if (result) {
@@ -158,18 +122,11 @@ function* fetchKeluhanKategoriStatusBlmDitanggapi(action) {
     } else {
         try {
             let result = [];
-            yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint-kategori/${action.id}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+            const response = yield call(API.fetchData, `/complaint-kategori/${action.id}/`);
+            response.data.map(item => {
+                if(item.status.status === 'Belum Ditanggapi') {
+                    result.push(item)
                 }
-            }).then(res => res.json())
-            .then(data => {
-                data.data.map(item => {
-                    if(item.status.status === 'Belum Ditanggapi') {
-                        result.push(item)
-                    }
-                })
             })
     
             if (result) {
@@ -185,23 +142,23 @@ function* fetchKeluhanKategoriStatusBlmDitanggapi(action) {
             console.log('Error Server Keluhan Saga', errorCatch)
         }
     }
-    
-    // yield put({type: types.SAVE_KELUHAN_KATEGORI_AND_BELUM_DITANGGAPI, data: result.data})
+
 }
 
 function* tanggapanLaporkanKeluhan(action) {
     try {
-        let result;
-        yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint/`, {
-         method: 'POST',
-         headers: {
-             'Content-Type': 'application/json'
-           },
-           body: JSON.stringify(action.data)
-         }).then(res => res.json())
-         .then(data => {
-             result = data
-         })
+        //let result;
+        const result = yield call(API.postData, `/complaint/`, action.data);
+        // yield fetch(`https://api.elbaayu.xyz/api-mobile/complaint/`, {
+        //  method: 'POST',
+        //  headers: {
+        //      'Content-Type': 'application/json'
+        //    },
+        //    body: JSON.stringify(action.data)
+        //  }).then(res => res.json())
+        //  .then(data => {
+        //      result = data
+        //  })
 
          if (result.success === true) {
             yield action.onSuccess(result.data)
@@ -221,8 +178,6 @@ function* tanggapanLaporkanKeluhan(action) {
         yield action.onError(err)
         console.log('Error Update Status/Tanggapan Keluhan Saga', errorCatch)
     }
-    // console.log('Tanggapan Laporkan Keluhan', action.data)
-    // action.onSuccess('Heheh')
 }
 
 export function* watchKeluhan() {

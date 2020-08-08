@@ -1,22 +1,13 @@
 import * as types from '../actions/actionTypes';
 import { put, takeLatest, call } from 'redux-saga/effects';
-
+import API from './api';
 function* login(action) {
     try {
-        let result;
-           yield fetch(`https://api.elbaayu.xyz/api-mobile/login/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                  'username': action.params.username,
-                  'password': action.params.password
-              })
-            }).then(res => res.json())
-            .then(data => {
-                result = data
-            })
+        const data = {
+            username: action.params.username,
+            password: action.params.password
+        }
+        const result = yield call(API.postData, `/login/`, data);
 
         if (result.success === true) {
             yield put({type: types.SET_USER_INFO, data: result.data})
@@ -41,19 +32,10 @@ function* login(action) {
 
 function* logout(action) {
     //Api Call
-    let result;
-    yield fetch(`https://api.elbaayu.xyz/api-mobile/token-delete/`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-            },
-        body: JSON.stringify({
-            'token': action.userId
-            })
-        }).then(res => res.json())
-        .then(data => {
-            result = data
-        })
+    const data = {
+        token: action.userId
+    }
+    const result = yield call(API.deleteData, `/token-delete/`, data);
 
         if (result.success == true) {
             yield put({type: types.SET_USER_INFO, data: {}});

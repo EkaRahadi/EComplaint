@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 //Stack
-import SplashScreen from '../screens/SplashScreen';
 import Login from '../screens/Login';
 import Home from '../screens/Home';
 import HomeAdmin from '../screens/HomeAdmin';
@@ -31,7 +30,6 @@ export default class Router extends Component {
             headerShown: false,
           }}
         >
-            <Stack.Screen name="Splashscreen" component={SplashScreen}/>
             <Stack.Screen name="Login" component={Login}/>
             <Stack.Screen name="HomeSuperAdmin" component={Home}/>
             <Stack.Screen name="HomeAdmin" component={HomeAdmin}/>

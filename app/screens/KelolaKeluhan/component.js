@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
-import { fetchKeluhanKategoriOnSuperAdmin, fetchKeluhanStatusPending } from '../../actions/index';
+import { fetchKeluhanKategoriOnSuperAdmin } from '../../actions/index';
 class Component extends React.Component {
 
     constructor(props) {
@@ -32,13 +32,7 @@ class Component extends React.Component {
     }
 
      _handlePressButton = () => {
-        this.setState({
-            ...this.state,
-            isLoading: true
-        })
-
-        //Dispatch untuk getlist keluhan yg statusnya pending
-        this.props.onFetchReport(this.onSuccess, this.onError);
+         
         this.props.navigation.navigate('Report')
      }
 
@@ -227,9 +221,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
       onFetchKeluhan: (id, onSuccess, onError, date) => {
           dispatch(fetchKeluhanKategoriOnSuperAdmin(id, onSuccess, onError, date))
-      },
-      onFetchReport: (onSuccess, onError) => {
-          dispatch(fetchKeluhanStatusPending(onSuccess, onError))
       }
   
     }

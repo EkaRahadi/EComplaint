@@ -2,20 +2,10 @@ import React from 'react';
 import {Text, View, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import {connect} from 'react-redux';
+import lodash from 'lodash';
 
-import { tanggapanLaporkanKeluhan } from '../../actions/index';
-
-renderSeparator = () => {  
-  return (  
-      <View  
-          style={{  
-              height: 1,  
-              width: "100%",  
-              backgroundColor: "#000",  
-          }}  
-      />  
-  );  
-};  
+import { tanggapanLaporkanKeluhan } from '../../actions/index'; 
+import { fetchKeluhanKategoriStatusBlmDitanggapi } from '../../actions/index';
 
 class Component extends React.Component {
   constructor(props) {
@@ -26,7 +16,7 @@ class Component extends React.Component {
   };
 }
 
-_handleTanggapanButton = () => {
+_handleTanggapanButton = async () => {
   if (this.state.tanggapan !== '') {
     this.setState({
       ...this.state,
@@ -44,13 +34,13 @@ _handleTanggapanButton = () => {
     }
     //Dispatch untuk update tanggapan dan status keluhan
     delete data.image;
-    this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
+    await this.props.onTanggapanLaporkanKeluhan(data, this.onSuccessTanggapi, this.onErrorTanggapi)
   } else {
     Alert.alert("Field Tanggapan tidak boleh kosong !")
   }
 }
 
-_handleLaporkanButton = () => {
+_handleLaporkanButton = async () => {
   this.setState({
     ...this.state,
     isLoading: true
@@ -67,33 +57,61 @@ _handleLaporkanButton = () => {
 
   //Dispatch untuk update tanggapan dan status keluhan
   delete data.image;
-  this.props.onTanggapanLaporkanKeluhan(data, this.onSuccess, this.onError)
+  await this.props.onTanggapanLaporkanKeluhan(data, this.onSuccessLaporkan, this.onErrorLaporkan);
 }
 
-onSuccess = (data) => {
+onSuccessTanggapi = (data) => {
   console.log('Success Update Keluhan')
+  console.log(data);
   this.setState({
       ...this.state,
       isLoading: false
   })
-  //Navigate To this.props.navigation.navigate('HomeAdmin')
+
   Alert.alert(
     "Berhasil",
-    "Action Berhasil Dilakukan",
+    "Berhasil Mengirim Tanggapan. ",
     [
-      { text: "OK", onPress: () => this.props.navigation.navigate('HomeAdmin') }
+      { text: "OK", onPress: () => this.props.navigation.goBack() }
     ],
     { cancelable: false }
   );
 }
 
-onError = (data) => {
+onErrorTanggapi = (data) => {
   console.log('Error Update Keluhan')
   this.setState({
       ...this.state,
       isLoading: false
   })
-  Alert.alert('Action Failed !')
+  Alert.alert('Gagal Mengirim Tanggapan !')
+}
+
+onSuccessLaporkan = (data) => {
+  console.log('Success Update Keluhan')
+  console.log(data);
+  this.setState({
+      ...this.state,
+      isLoading: false
+  })
+
+  Alert.alert(
+    "Berhasil",
+    "Keluhan Berhasil Dilaporkan.",
+    [
+      { text: "OK", onPress: () => this.props.navigation.goBack() }
+    ],
+    { cancelable: false }
+  );
+}
+
+onErrorLaporkan = (data) => {
+  console.log('Error Melaporkan')
+  this.setState({
+      ...this.state,
+      isLoading: false
+  })
+  Alert.alert('Keluhan Gagal Dilaporkan. !')
 }
 
     render() {
@@ -134,7 +152,7 @@ onError = (data) => {
                   Keluhan :
                 </Text>
                 <Text style={{color:'grey', fontSize:14, marginTop:10, fontWeight:'100', marginHorizontal:10}}>
-                  {this.props.route.params.data.keluhan}
+                  {lodash.upperFirst(this.props.route.params.data.keluhan)}
                 </Text>
 
                 
@@ -242,6 +260,9 @@ onError = (data) => {
     return {
       onTanggapanLaporkanKeluhan: (data, onSuccess, onError) => {
         dispatch(tanggapanLaporkanKeluhan(data, onSuccess, onError))
+      },
+      onFetchKeluhanStatusBlmDitanggapi: (id, onSuccess, onError, jurusan) => {
+        dispatch(fetchKeluhanKategoriStatusBlmDitanggapi(id, onSuccess, onError, jurusan))
       }
   
     }
