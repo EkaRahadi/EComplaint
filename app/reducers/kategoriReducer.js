@@ -4,7 +4,6 @@ const kategoriReducer =(state=[], action) => {
     switch(action.type) {
         case SET_KATEGORI:
             return [
-                ...state,
                 ...action.data
             ]
         case RESET_KATEGORI:

@@ -116,6 +116,7 @@ _onCancel = () => {
     textButton: 'Update',
     buttonColor: '#C6752A',
     borderColor: '#FFF',
+    password: 'password'
   })
 }
 
@@ -127,6 +128,7 @@ _onUpdate = async () => {
       buttonColor: '#5EBA7D',
       borderColor: '#EFF0F1',
       editable: true,
+      password: ''
     })
   }
   else {
@@ -144,7 +146,7 @@ _onUpdate = async () => {
       nik: this.state.nik,
       jabatan: this.state.jabatan,
       kategori: this.state.kategoriId,
-      jurusan: this.state.jurusan
+      jurusan: this.state.kategoriId === 4 ? lodash.startCase(this.state.jurusan) : null
     }
 
     const dataFull = {
@@ -155,7 +157,7 @@ _onUpdate = async () => {
       jabatan: this.state.jabatan,
       status_admin: "Admin",
       password: this.state.password,
-      jurusan: this.state.jurusan,
+      jurusan: this.state.kategoriId === 4 ? lodash.startCase(this.state.jurusan) : null,
       kategori: {
         kategori:this.state.kategoriId
       }
@@ -163,7 +165,7 @@ _onUpdate = async () => {
 
     const adminId = this.props.route.params.data.id
     // cek password baru apakah masukin password baru ?
-    if(this.state.password === 'password') {
+    if(this.state.password === '') {
       //dispatch ke action update admin partial
       await this.props.onUpdatePartialAdmin(dataPartial, adminId, this.onSuccessUpdate, this.onErrorUpdate)
     } else {
