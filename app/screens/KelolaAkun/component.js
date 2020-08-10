@@ -82,7 +82,7 @@ onError = (err) => {
 
           {/* CONTENT */}
             <FlatList
-            data={this.props.listAdmin}
+            data={this.props.listAdmin.sort((a, b) => { return b.id - a.id; })}
             keyExtractor={(item, index) => index.toString()}
             renderItem = {({item}) => {
               return (

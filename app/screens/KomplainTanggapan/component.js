@@ -71,7 +71,11 @@ class Component extends React.Component {
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
                  Belum Ditanggapi
                 </Text>
-               : 
+               : this.props.route.params.data.status.status === 'Pending' ?
+                <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
+                  Keluhan belum di tinjau
+                </Text>
+              :
                 <Text style={{color:'grey', fontSize:14, marginTop:10, marginHorizontal:10}}>
                   {lodash.upperFirst(this.props.route.params.data.tanggapan)}
                 </Text>}

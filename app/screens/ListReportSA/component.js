@@ -76,7 +76,7 @@ onError = (err) => {
           {/* CONTENT */}
           {this.props.keluhanPending.length > 0 ?
             <FlatList
-            data={this.props.keluhanPending}
+            data={this.props.keluhanPending.sort((a, b) => { return b.id - a.id; })}
             keyExtractor={(item, index) => index.toString()}
             renderItem = {({item}) => {
               return (

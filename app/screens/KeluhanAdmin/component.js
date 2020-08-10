@@ -81,7 +81,7 @@ class Component extends React.Component {
           {/* CONTENT */}
           {this.props.keluhan.length > 0 ?
             <FlatList
-            data={this.props.keluhan}
+            data={this.props.keluhan.sort((a, b) => { return b.id - a.id; })}
             keyExtractor={(item, index) => index.toString()}
             renderItem = {({item}) => {
               return (

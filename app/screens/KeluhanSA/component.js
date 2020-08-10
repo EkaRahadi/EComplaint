@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity, Alert, PermissionsAndroid} from 'react-native';
+import {Text, View, Image, FlatList, StyleSheet, TouchableOpacity, Alert, PermissionsAndroid, AppState} from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
+import { ACTION_DATE_SET, ACTION_DISMISSED } from 'react-native-month-year-picker';
 import {connect} from 'react-redux';
 import OrientationLoadingOverlay from 'react-native-orientation-loading-overlay';
 import { Button, Menu, Provider } from 'react-native-paper';
@@ -19,23 +20,29 @@ class Component extends React.Component {
   };
 }
 
-  onValuePickerChange = (event, date) => {
-    this.setState({
-      ...this.state,
-      isPickerDateShow: false,
-      date: date || this.state.date
-    })
 
-    //Dispatch untuk get complaint by date dan show loading kalo success 
-    //tampilkan data kalau gagal alert complaint by date tsb tidak ada di db
-    //Here
-    if(date !== undefined) {
-      this.setState({
-        ...this.state,
-        isLoading: true,
-        message: this.state.date
-      })
-      this.props.onFetchKeluhan(this.props.route.params.kategoriId, this.onSuccess, this.onError, date)
+  onValuePickerChange = (event, date) => {
+    switch(event) {
+      case ACTION_DATE_SET:
+        this.setState({
+          ...this.state,
+          isPickerDateShow: false,
+          date: date,
+          message: date
+        })
+        this.props.onFetchKeluhan(this.props.route.params.kategoriId, this.onSuccess, this.onError, date)
+        break;
+      case ACTION_DISMISSED:
+        this.setState({
+          ...this.state,
+          isPickerDateShow: false
+        })
+        console.log(this.state.isPickerDateShow);
+      default:
+        this.setState({
+          ...this.state,
+          isPickerDateShow: false
+        })
     }
   }
 
@@ -209,7 +216,7 @@ class Component extends React.Component {
             {/* CONTENT */}
             {this.props.keluhan.length > 0 ? 
               <FlatList
-              data={this.props.keluhan}
+              data={this.props.keluhan.sort((a, b) => { return b.id - a.id; })}
               keyExtractor={(item, index) => index.toString()}
               renderItem = {({item}) => {
                 return (
@@ -220,10 +227,13 @@ class Component extends React.Component {
                   >
                       <View style={styles.card}>
                         {item.status.status === 'Belum Ditanggapi' ?
-                          <Text style={[styles.status]}>{item.status.status}</Text>
+                          <Text style={[styles.status, {color : '#061F3E'}]}>{item.status.status}</Text>
                         :  item.status.status === 'Reported' ?
+                          <Text style={[styles.status, {color : 'red'}]}>{item.status.status}</Text>
+                        : item.status.status === 'Pending' ?
                           <Text style={[styles.status, {color : '#989898'}]}>{item.status.status}</Text>
-                        : <Text style={[styles.status]}>Sudah Ditanggapi</Text>
+                        :
+                         <Text style={[styles.status]}>Sudah Ditanggapi</Text>
                         }
                         {/* <Text style={[styles.status, {color : '#A54D4D'}]}>{item.status.status}</Text> */}
                         <Text style={styles.complaints} numberOfLines={1}>{lodash.upperFirst(item.keluhan)}</Text>
